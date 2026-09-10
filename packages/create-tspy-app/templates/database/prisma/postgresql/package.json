@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@prisma/adapter-pg": "^7",
+    "@prisma/client": "^7",
+    "dotenv": "^17",
+    "pg": "^8"
+  },
+  "devDependencies": {
+    "@types/pg": "^8",
+    "prisma": "^7"
+  },
+  "scripts": {
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev"
+  }
+}

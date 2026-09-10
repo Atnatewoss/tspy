@@ -1,0 +1,2 @@
+[project.dependencies]
+anthropic = ">=0.63.0"

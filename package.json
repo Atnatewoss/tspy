@@ -1,0 +1,9 @@
+{
+  "name": "tspy-workspace",
+  "private": true,
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}

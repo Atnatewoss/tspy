@@ -1,0 +1,26 @@
+{
+  "name": "create-tspy-app",
+  "version": "0.1.0",
+  "description": "Scaffold a new TSPY application from composable templates",
+  "type": "module",
+  "bin": {
+    "create-tspy-app": "./create-tspy-app.ts"
+  },
+  "files": [
+    "create-tspy-app.ts",
+    "src",
+    "templates"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@clack/core": "^1.5.0",
+    "@clack/prompts": "^1.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "typescript": "^5"
+  }
+}

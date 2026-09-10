@@ -1,0 +1,30 @@
+# dependencies
+/node_modules
+
+# build output
+/.output/
+/dist/
+/.nitro/
+
+# generated
+/generated/
+
+# typescript
+*.tsbuildinfo
+
+# python
+__pycache__/
+*.pyc
+.venv/
+uv.lock
+
+# database
+*.db
+*.sqlite
+*.sqlite3
+
+# misc
+.DS_Store
+.env
+.env.*
+!.env.example

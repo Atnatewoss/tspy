@@ -1,0 +1,2 @@
+[project.dependencies]
+dramatiq = ">=1.17.0"

@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&family=Silkscreen:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-background: #09090b;
+  --color-foreground: #f4f4f5;
+  --color-muted: #a1a1aa;
+  --color-border: #27272a;
+  --color-accent: #00e5ff;
+  --color-card: #121215;
+
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Roboto Mono, monospace;
+  --font-pixel: 'Silkscreen', 'Geist Mono', monospace;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-background: #ffffff;
+    --color-foreground: #09090b;
+    --color-muted: #71717a;
+    --color-border: #e4e4e7;
+    --color-accent: #0088cc;
+    --color-card: #f4f4f5;
+  }
+}
+
+html {
+  min-height: 100%;
+  color-scheme: dark light;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #000000;
+}

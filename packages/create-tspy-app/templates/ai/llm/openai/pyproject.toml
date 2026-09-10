@@ -1,0 +1,2 @@
+[project.dependencies]
+openai = ">=1.99.0"

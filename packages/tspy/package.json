@@ -1,0 +1,30 @@
+{
+  "name": "tspy",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./server": "./src/server.ts",
+    "./router": "./src/router/index.ts",
+    "./entry-client": "./src/entry-client.tsx"
+  },
+  "imports": {
+    "#tspy-api": "./src/api-client.ts"
+  },
+  "bin": {
+    "tspy": "./bin/tspy.js"
+  },
+  "dependencies": {
+    "@tspy/dev": "workspace:*",
+    "jiti": "^2.7.0",
+    "react-router": "^7"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "devDependencies": {
+    "vite": "^8.3.0"
+  }
+}
