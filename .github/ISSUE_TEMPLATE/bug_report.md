@@ -1,34 +1,42 @@
 ---
-name: Bug Report
-about: Create a report to help us improve
-title: "[BUG] "
+name: Bug report
+about: Report something that does not work as expected
+title: "bug: "
 labels: bug
-assignees: ''
+assignees: ""
 
 ---
 
-## Describe the bug
+## Description
 
-A clear and concise description of what the bug is.
+A clear and concise description of the bug.
 
-## To Reproduce
+## Steps to Reproduce
 
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+1. Run "..."
+2. Open "..."
+3. Observe the error
 
-## Expected behavior
+## Expected Behavior
 
-A clear and concise description of what you expected to happen.
+What you expected to happen.
+
+## Actual Behavior
+
+What actually happened, including the full error message or stack trace if available.
 
 ## Environment
 
-- OS: [e.g. macOS]
-- Browser: [e.g. Chrome, Safari]
-- Version: [e.g. 22]
+- Operating system:
+- Node version:
+- pnpm version:
+- tspy package and version:
+- Package manager output (if relevant):
 
-## Additional context
+```
+paste logs here
+```
 
-Add any other context about the problem here.
+## Additional Context
+
+Anything else that helps reproduce or understand the problem: related configuration, minimal repository, or screenshots.
