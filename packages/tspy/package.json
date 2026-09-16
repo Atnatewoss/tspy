@@ -1,6 +1,7 @@
 {
   "name": "tspy",
   "version": "0.1.0",
+  "description": "The full-stack React framework for the AI era: React UI and Python intelligence in one codebase",
   "type": "module",
   "main": "./src/index.ts",
   "exports": {
@@ -26,5 +27,26 @@
   },
   "devDependencies": {
     "vite": "^8.3.0"
+  },
+  "license": "MIT",
+  "keywords": [
+    "tspy",
+    "framework",
+    "react",
+    "python",
+    "vite",
+    "nitro"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Atnatewoss/tspy.git",
+    "directory": "packages/tspy"
+  },
+  "bugs": {
+    "url": "https://github.com/Atnatewoss/tspy/issues"
+  },
+  "homepage": "https://github.com/Atnatewoss/tspy#readme",
+  "engines": {
+    "node": ">=20"
   }
 }
