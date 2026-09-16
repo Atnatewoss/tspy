@@ -4,9 +4,11 @@
   "description": "Vite and Nitro powered dev server and build pipeline for TSPY",
   "type": "module",
   "main": "./src/index.ts",
+  "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts"
   },
+  "files": ["src", "README.md"],
   "dependencies": {
     "@vitejs/plugin-react": "^6.1.1",
     "fast-glob": "^3.3.3",
