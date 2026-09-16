@@ -1,24 +1,28 @@
 ---
-name: Feature Request
-about: Suggest an idea for this project
-title: "[FEATURE] "
+name: Feature request
+about: Suggest an idea or capability for TSPY
+title: "feat: "
 labels: enhancement
-assignees: ''
+assignees: ""
 
 ---
 
-## Is your feature request related to a problem?
+## Problem Statement
 
-A clear and concise description of what the problem is. Ex. I am always frustrated when [...]
+What problem are you trying to solve? Describe the workflow that is currently difficult or impossible.
 
-## Describe the solution you'd like
+## Proposed Solution
 
-A clear and concise description of what you want to happen.
+What you want to happen. Include the API shape if the request touches code:
 
-## Describe alternatives you've considered
+```ts
+// example of how the feature would be used
+```
 
-A clear and concise description of any alternative solutions or features you have considered.
+## Alternatives Considered
 
-## Additional context
+Other approaches you have thought about, including workarounds you use today.
 
-Add any other context or screenshots about the feature request here.
+## Additional Context
+
+Links to related issues, discussions, prior art in other frameworks, or anything else that helps evaluate the request.
