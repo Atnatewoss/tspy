@@ -8,11 +8,6 @@
   --muted: #f4f4f5;
   --muted-foreground: #71717a;
   --border: #b0b0b8;
-  --bridge-node-a: #a2a8ae;
-  --bridge-node-b: #94a3b8;
-  --bridge-center: #9aa3ae;
-  --bridge-line: #d7dbe0;
-  --bridge-strong: #b9c2cb;
   --hero-noise-opacity: 0.03;
   --hero-beam-a: rgba(168, 162, 158, 0.16);
   --hero-beam-b: rgba(168, 162, 158, 0.08);
@@ -38,11 +33,6 @@
   --muted: #1a1a1a;
   --muted-foreground: #a1a1aa;
   --border: #2a2a2a;
-  --bridge-node-a: #43474e;
-  --bridge-node-b: #3d4754;
-  --bridge-center: #414a55;
-  --bridge-line: #232830;
-  --bridge-strong: #34424f;
   --hero-noise-opacity: 0.05;
   --hero-beam-a: rgba(255, 240, 214, 0.09);
   --hero-beam-b: rgba(255, 240, 214, 0.04);
@@ -129,24 +119,6 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-}
-
-@keyframes bridge-flow {
-  0%,
-  100% {
-    opacity: var(--flow-0, 0.5);
-  }
-  50% {
-    opacity: var(--flow-1, 0.15);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .bridge-flow {
-    animation: bridge-flow ease-in-out infinite;
-    animation-duration: var(--flow-dur, 7s);
-    animation-delay: var(--flow-delay, 0s);
-  }
 }
 
 @keyframes tspy-float {

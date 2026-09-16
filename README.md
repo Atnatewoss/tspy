@@ -13,9 +13,7 @@
   <img alt="pnpm" src="https://img.shields.io/badge/pnpm-11-orange" />
 </p>
 
-<p align="center"><strong>The Full-Stack React Framework for the AI Era.</strong></p>
-
-Used to build intelligence-native web applications, TSPY enables you to create full-stack experiences by seamlessly bridging the gap between TypeScript (the language of the web) and Python (the language of AI). By combining the ergonomics of Next.js filesystem routing with ultra-fast Vite client tooling and Nitro's universal server engine, TSPY provides the ultimate developer experience for the modern web.
+<p align="center"><strong>TypeScript on the web. Python for intelligence. One framework.</strong></p>
 
 ---
 
