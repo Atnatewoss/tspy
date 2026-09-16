@@ -22,5 +22,24 @@
   "devDependencies": {
     "@types/node": "^22",
     "typescript": "^5"
+  },
+  "license": "MIT",
+  "keywords": [
+    "tspy",
+    "cli",
+    "scaffolding",
+    "create-app"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Atnatewoss/tspy.git",
+    "directory": "packages/create-tspy-app"
+  },
+  "bugs": {
+    "url": "https://github.com/Atnatewoss/tspy/issues"
+  },
+  "homepage": "https://github.com/Atnatewoss/tspy#readme",
+  "engines": {
+    "node": ">=20"
   }
 }

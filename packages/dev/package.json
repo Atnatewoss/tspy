@@ -1,6 +1,7 @@
 {
   "name": "@tspy/dev",
   "version": "0.1.0",
+  "description": "Vite and Nitro powered dev server and build pipeline for TSPY",
   "type": "module",
   "main": "./src/index.ts",
   "exports": {
@@ -14,5 +15,24 @@
     "nitropack": "^2.13.4",
     "tspy": "workspace:*",
     "vite": "^8.3.0"
+  },
+  "license": "MIT",
+  "keywords": [
+    "tspy",
+    "vite",
+    "nitro",
+    "dev-server"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Atnatewoss/tspy.git",
+    "directory": "packages/dev"
+  },
+  "bugs": {
+    "url": "https://github.com/Atnatewoss/tspy/issues"
+  },
+  "homepage": "https://github.com/Atnatewoss/tspy#readme",
+  "engines": {
+    "node": ">=20"
   }
 }
