@@ -5,20 +5,28 @@
   </picture>
 </p>
 
+<h1 align="center">TSPY</h1>
+
+<p align="center">
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-blue.svg" /></a>
+  <img alt="Node" src="https://img.shields.io/badge/node-%3E%3D20-brightgreen" />
+  <img alt="pnpm" src="https://img.shields.io/badge/pnpm-11-orange" />
+</p>
+
 <p align="center"><strong>The Full-Stack React Framework for the AI Era.</strong></p>
 
 Used to build intelligence-native web applications, TSPY enables you to create full-stack experiences by seamlessly bridging the gap between TypeScript (the language of the web) and Python (the language of AI). By combining the ergonomics of Next.js filesystem routing with ultra-fast Vite client tooling and Nitro's universal server engine, TSPY provides the ultimate developer experience for the modern web.
 
 ---
 
-## ⚡ Why TSPY?
+## Why TSPY?
 
 - **Intelligence Native**: True, first-class co-location of React UIs and Python AI models. A single directory owns the frontend route and its backend intelligence.
 - **Decoupled Filesystem Routing**: Automatic, intuitive route discovery from the `app/` directory via build-time AST parsing. Zero runtime filesystem scanning.
 - **Ultra-Fast Development**: Powered programmatically by Vite for instant frontend HMR and Nitro for robust cross-platform server runtimes.
 - **Zero-Config Ergonomics**: No `index.html` or `nitro.config.ts`. The framework manages the build environment internally so you can focus on your product. A minimal `vite.config.ts` is generated only to enable Tailwind CSS.
 - **End-to-End Type Safety**: Generated RPC boundaries mean calling a Python model from a React component is as safe as a local function call.
-- **Ergonomic Layout API**: Write layouts using standard React `{ children }` composition—TSPY transparently adapts them to nested routing models.
+- **Ergonomic Layout API**: Write layouts using standard React `{ children }` composition. TSPY transparently adapts them to nested routing models.
 
 ---
 
@@ -49,7 +57,9 @@ my-app/
 │       └── [id]/
 │           └── page.tsx   # Dynamic user page (/users/:id)
 ├── public/                # Static public assets
-├── server/                # Nitro server API routes
+├── server/
+│   └── api/
+│       └── health.ts      # Nitro API route (GET /api/health)
 └── package.json
 ```
 
