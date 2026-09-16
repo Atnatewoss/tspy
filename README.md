@@ -13,7 +13,7 @@
   <img alt="pnpm" src="https://img.shields.io/badge/pnpm-11-orange" />
 </p>
 
-<p align="center"><strong>The Full-Stack React Framework for the AI Era: TypeScript on the web. Python for intelligence. One framework.</strong></p>
+<p align="center"><strong>TypeScript on the web. Python for intelligence. One framework.</strong></p>
 
 ---
 
