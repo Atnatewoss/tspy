@@ -1,1 +1,28 @@
-{ "name": "@tspy/supabase", "version": "0.1.0", "type": "module", "main": "src/index.ts", "dependencies": { "tspy": "workspace:*" } }
+{
+  "name": "@tspy/supabase",
+  "version": "0.1.0",
+  "description": "Supabase auth and data plugin for TSPY",
+  "type": "module",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "keywords": [
+    "tspy",
+    "plugin",
+    "auth"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Atnatewoss/tspy.git",
+    "directory": "packages/tspy-supabase"
+  },
+  "bugs": {
+    "url": "https://github.com/Atnatewoss/tspy/issues"
+  },
+  "homepage": "https://github.com/Atnatewoss/tspy#readme",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "tspy": "workspace:*"
+  }
+}
