@@ -9,10 +9,7 @@ import Image from "next/image";
 import { SiteHeader } from "@/components/site-header";
 import {
   LogoIcon,
-  ReactLogo,
   ViteLogo,
-  NitroLogo,
-  HonoLogo,
   PythonLogo,
   SparkleIcon,
   JobsIcon,
@@ -527,8 +524,8 @@ export default function HomePage() {
                     The fullstack framework for the web and its intelligence.
                   </h1>
                   <p className="mt-4 max-w-xl text-sm leading-6 text-muted-foreground sm:text-base">
-                    One command builds your whole project. TypeScript owns the
-                    web. Python owns the AI and the jobs you pick.
+                    One framework. One dev server. Filesystem routing, auth, database,
+                    AI, and jobs — wired together from a single config.
                   </p>                    <div className="mt-8 flex flex-wrap items-center gap-3">
                     <Link
                       href="/docs/introduction"
@@ -654,90 +651,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-6xl border-t border-dashed border-border px-4 py-24 sm:px-6 lg:px-8">
-          <div className="reveal">
-            <p className="text-center font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              The stack, connected
-            </p>
-            <h2 className="mt-4 text-center text-2xl font-semibold tracking-tight sm:text-3xl">
-              One repo, two runtimes, no seams.
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-center text-base leading-7 text-muted-foreground">
-              TypeScript owns the surface, Nitro owns the API, Python owns the
-              intelligence - wired together into one project with one dev
-              server, not three repositories that argue.
-            </p>
-
-            <div className="mt-14 flex flex-col items-stretch gap-12 md:flex-row md:items-stretch md:gap-0">
-              <BridgeNode
-                tag="01 · The surface"
-                title={
-                  <>
-                    <TechLabel
-                      icon={<ReactLogo className="size-5" />}
-                      name="React"
-                    />
-                    <span aria-hidden className="text-muted-foreground">
-                      +
-                    </span>
-                    <TechLabel
-                      icon={<ViteLogo className="size-5" />}
-                      name="Vite"
-                    />
-                  </>
-                }
-                mono="the TypeScript web"
-              />
-              <BridgeConnector />
-              <BridgeNode
-                tag="02 · The server"
-                title={
-                  <>
-                    <TechLabel
-                      icon={<NitroLogo className="size-5" />}
-                      name="Nitro"
-                    />
-                    <span aria-hidden className="text-muted-foreground">
-                      +
-                    </span>
-                    <TechLabel
-                      icon={<HonoLogo className="size-5" />}
-                      name="h3"
-                    />
-                  </>
-                }
-                mono="the API at /api"
-              />
-              <BridgeConnector />
-              <BridgeNode
-                tag="03 · The intelligence"
-                title={
-                  <>
-                    <TechLabel
-                      icon={<PythonLogo className="size-5" />}
-                      name="Python"
-                    />
-                    <span aria-hidden className="text-muted-foreground">
-                      ·
-                    </span>
-                    <TechLabel
-                      icon={<SparkleIcon className="size-4" />}
-                      name="AI"
-                    />
-                    <span aria-hidden className="text-muted-foreground">
-                      ·
-                    </span>
-                    <TechLabel
-                      icon={<JobsIcon className="size-5" />}
-                      name="jobs"
-                    />
-                  </>
-                }
-                mono="llm · agents · rag · tasks"
-              />
-            </div>
-          </div>
-        </section>
       </main>
 
       <footer className="border-t border-dashed border-border">
@@ -814,48 +727,6 @@ function StatusChip({ status }: { status: "ships" | "direction" }) {
       />
       {ships ? "ships" : "direction"}
     </span>
-  );
-}
-
-function BridgeNode({
-  tag,
-  title,
-  mono,
-}: {
-  tag: string;
-  title: ReactNode;
-  mono: string;
-}) {
-  return (
-    <div className="flex flex-1 flex-col items-center gap-2 rounded-xl border border-border bg-muted/20 px-6 py-8 text-center transition-colors duration-200 hover:border-foreground/20 hover:bg-muted/40">
-      <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-        {tag}
-      </p>
-      <p className="text-lg font-semibold tracking-tight">{title}</p>
-      <p className="font-mono text-xs text-muted-foreground">{mono}</p>
-    </div>
-  );
-}
-
-function TechLabel({ icon, name }: { icon: ReactNode; name: string }) {
-  return (
-    <span className="inline-flex items-center gap-1.5 px-1">
-      <span className="shrink-0">{icon}</span>
-      <span>{name}</span>
-    </span>
-  );
-}
-
-function BridgeConnector() {
-  return (
-    <div
-      aria-hidden
-      className="mx-auto my-2 hidden items-center gap-1 px-1 md:my-auto md:flex md:shrink-0"
-    >
-      <span className="h-px w-6 bg-border" />
-      <span className="text-muted-foreground">→</span>
-      <span className="h-px w-6 bg-border" />
-    </div>
   );
 }
 

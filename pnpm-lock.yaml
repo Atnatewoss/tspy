@@ -124,6 +124,12 @@ importers:
         specifier: workspace:*
         version: link:../tspy
 
+  packages/tspy-ollama:
+    dependencies:
+      tspy:
+        specifier: workspace:*
+        version: link:../tspy
+
   packages/tspy-openai:
     dependencies:
       tspy:
