@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     "One project, both worlds. Python owns the intelligence layer, TypeScript owns the web surface, and the framework runs them together: typed contracts, generators, and one CLI.",
 };
 
-const themeInit = `(function(){try{var t=localStorage.getItem('tspy-theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('dark',d)}catch(e){}})();`;
+const themeInit = `(function(){document.documentElement.classList.add('dark')})();`;
 
 export default function RootLayout(props: LayoutProps<"/">) {
   return (
