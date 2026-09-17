@@ -1,16 +1,48 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 import { GithubIcon, LogoIcon } from "@/components/icons";
 import { GITHUB_URL } from "@/lib/sections";
 
 const NAV_ITEMS: { href: string; label: string; key: string }[] = [
-  { href: "/docs/introduction", label: "Docs", key: "docs" },
-  { href: "/learn/why-a-meta-framework", label: "Learn", key: "learn" },
+  { href: "/docs/why-tspy", label: "Docs", key: "docs" },
   { href: "/changelog", label: "Changelog", key: "changelog" },
 ];
+
+function useGitHubStars() {
+  const [stars, setStars] = useState<number | null>(null);
+
+  useEffect(() => {
+    const cacheKey = "tspy:gh-stars";
+    const cacheTtl = 60 * 60 * 1000; // 1 hour
+
+    try {
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        const { count, ts } = JSON.parse(cached);
+        if (Date.now() - ts < cacheTtl) {
+          setStars(count);
+          return;
+        }
+      }
+    } catch {}
+
+    fetch("https://api.github.com/repos/Atnatewoss/tspy")
+      .then((r) => r.json())
+      .then((data) => {
+        const count = data.stargazers_count as number;
+        setStars(count);
+        try {
+          localStorage.setItem(cacheKey, JSON.stringify({ count, ts: Date.now() }));
+        } catch {}
+      })
+      .catch(() => {});
+  }, []);
+
+  return stars;
+}
 
 export function SiteHeader({
   active,
@@ -18,45 +50,17 @@ export function SiteHeader({
   active?: "docs" | "learn" | "changelog";
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  const onScroll = useCallback(() => {
-    setScrolled(window.scrollY > 8);
-  }, []);
-
-  useEffect(() => {
-    const frame = window.requestAnimationFrame(onScroll);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, [onScroll]);
+  const stars = useGitHubStars();
 
   return (
-    <header
-      className={`sticky top-0 z-40 -mb-16 transition-colors duration-300 md:border-transparent md:bg-transparent md:backdrop-blur-none ${
-        scrolled ? "border-b border-border bg-background/50 backdrop-blur-xl" : "border-transparent bg-transparent"
-      }`}
-    >
-      <div className="relative mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-x-4 px-4 sm:px-6 lg:px-8">
-        <Link
-          href="/"
-          className={`flex shrink-0 items-center gap-2 transition-transform duration-500 ease-out ${
-            scrolled ? "md:-translate-x-20 lg:-translate-x-32" : ""
-          }`}
-        >
-          <LogoIcon className="size-8" />
-          <span className="text-[17px] font-semibold tracking-tight">
-            tspy
-          </span>
+    <header className="sticky top-0 z-40 -mb-14 border-b border-border bg-background/80 backdrop-blur">
+      <div className="relative mx-auto flex h-14 max-w-7xl items-center gap-x-4 px-4 sm:px-6 lg:px-8">
+        <Link href="/" className="flex shrink-0 items-center gap-2">
+          <LogoIcon className="size-6" />
+          <span className="text-[16px] font-semibold tracking-tight">tspy</span>
         </Link>
 
-        {/* Desktop pill nav — centered, theme-aware bg */}
-        <nav
-          aria-label="Site sections"
-          className="hidden items-center gap-1.5 rounded-full border border-foreground/15 bg-background/45 p-1.5 shadow-[0_10px_32px_rgba(0,0,0,0.08)] backdrop-blur-2xl md:flex md:absolute md:left-1/2 md:top-[calc(50%+12px)] md:-translate-x-1/2 md:-translate-y-1/2 dark:border-white/10 dark:bg-background/55 dark:shadow-[0_10px_32px_rgba(0,0,0,0.35)]"
-        >
+        <nav aria-label="Site sections" className="hidden items-center gap-6 md:flex ml-auto">
           {NAV_ITEMS.map((item) => {
             const isActive = active === item.key;
             return (
@@ -64,10 +68,8 @@ export function SiteHeader({
                 key={item.key}
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
-                className={`rounded-full px-4 py-1.5 text-[14px] font-medium transition-colors ${
-                  isActive
-                    ? "bg-foreground text-background"
-                    : "text-muted-foreground hover:bg-background hover:text-foreground"
+                className={`text-sm font-medium transition-colors ${
+                  isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {item.label}
@@ -76,26 +78,20 @@ export function SiteHeader({
           })}
         </nav>
 
-        <div
-          className={`flex items-center gap-2 transition-transform duration-500 ease-out sm:gap-3 ${
-            scrolled ? "md:translate-x-20 lg:translate-x-32" : ""
-          }`}
-        >
+        <div className="flex items-center gap-2 sm:gap-3">
           <a
             href={GITHUB_URL}
             target="_blank"
             rel="noreferrer"
-            aria-label="tspy on GitHub - 0 stars"
+            aria-label={`tspy on GitHub - ${stars ?? 0} stars`}
             title="tspy on GitHub"
-            className="inline-flex h-9 items-center gap-2 rounded-lg border border-border px-2.5 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-border px-2.5 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           >
             <GithubIcon className="size-[18px]" />
-            <span aria-hidden className="hidden h-3.5 w-px bg-border sm:inline" />
-            <span className="hidden sm:inline">0</span>
+            <span className="hidden sm:inline">{stars ?? "—"}</span>
           </a>
-          <ThemeToggle />
+          <ThemeSwitcher />
 
-          {/* Mobile hamburger */}
           <button
             type="button"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -119,13 +115,9 @@ export function SiteHeader({
         </div>
       </div>
 
-      {/* Mobile pill nav (dropdown) */}
       {mobileOpen && (
-        <nav
-          aria-label="Site sections"
-          className="mx-auto max-w-6xl border-t border-border px-4 pb-4 pt-2 md:hidden"
-        >
-          <div className="flex flex-col gap-1 rounded-xl border border-border bg-muted/50 p-1.5 backdrop-blur-md">
+        <nav aria-label="Site sections" className="mx-auto max-w-7xl border-t border-border px-4 pb-4 pt-2 md:hidden">
+          <div className="flex flex-col gap-1">
             {NAV_ITEMS.map((item) => {
               const isActive = active === item.key;
               return (
@@ -135,9 +127,7 @@ export function SiteHeader({
                   aria-current={isActive ? "page" : undefined}
                   onClick={() => setMobileOpen(false)}
                   className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                    isActive
-                      ? "bg-foreground text-background"
-                      : "text-muted-foreground hover:bg-background hover:text-foreground"
+                    isActive ? "bg-muted text-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"
                   }`}
                 >
                   {item.label}
