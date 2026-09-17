@@ -1,4 +1,4 @@
-import { DOCS_NAV, LEARN_NAV } from "@/lib/sections";
+import { DOCS_NAV } from "@/lib/sections";
 
 export async function GET() {
   const lines = [
@@ -6,19 +6,7 @@ export async function GET() {
     "",
     "> tspy is a fullstack framework. One command builds a project where TypeScript owns the web (a React client and a Nitro server) and Python owns AI and background jobs. Everything is composed from small, independent template packages instead of baked-in boilerplate.",
     "",
-    "## Docs",
-    "",
     ...DOCS_NAV.flatMap((group) => [
-      `### ${group.title}`,
-      "",
-      ...group.items.map(
-        (item) => `- [${item.title}](${baseUrl(item.href)})`
-      ),
-      "",
-    ]),
-    "## Learn",
-    "",
-    ...LEARN_NAV.flatMap((group) => [
       `### ${group.title}`,
       "",
       ...group.items.map(
