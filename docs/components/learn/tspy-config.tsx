@@ -50,10 +50,10 @@ export default defineConfig({
         ]}
       />
       <P>
-        The pattern is inspired by Farm.js integrations: the provider package
-        stays thin and the shared logic lives in the factory. The factory takes{" "}
-        <Code>options</Code> (the provider, model, path, and feature flags) plus
-        optional <Code>setup</Code> and <Code>generateExports</Code> hooks.
+        The provider package stays thin and the shared logic lives in the
+        factory. The factory takes <Code>options</Code> (the provider, model,
+        path, and feature flags) plus optional <Code>setup</Code> and{" "}
+        <Code>generateExports</Code> hooks.
       </P>
       <CodeBlock file="packages/tspy-better-auth/src/index.ts" title="A thin plugin package">
 {`import { createAuthPlugin } from "tspy";
