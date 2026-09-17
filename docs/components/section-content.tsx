@@ -5,6 +5,8 @@ import {
   inferLang,
   type CodeLang,
 } from "@/lib/highlight";
+import { CopyIcon } from "@/components/icons";
+import { Tree, Folder, File } from "@/components/file-tree";
 
 export function H3({
   id,
@@ -55,25 +57,36 @@ export async function CodeBlock({
   return (
     <figure className="my-6 overflow-hidden rounded-xl border border-border text-left">
       {(title || file) && (
-        <figcaption className="flex items-center gap-2 border-b border-border bg-muted/60 px-4 py-2.5 font-mono text-xs text-muted-foreground">
-          {title && <span>{title}</span>}
-          {file && <span>{file}</span>}
+        <figcaption className="flex items-center gap-2 border-b border-border bg-muted/60 px-4 py-2.5">
+          <div className="flex gap-1.5">
+            <span className="size-2.5 rounded-full bg-muted-foreground/25" />
+            <span className="size-2.5 rounded-full bg-muted-foreground/25" />
+            <span className="size-2.5 rounded-full bg-muted-foreground/25" />
+          </div>
+          <span className="ml-2 font-mono text-xs text-muted-foreground">
+            {title || file}
+          </span>
         </figcaption>
       )}
-      <pre className="shiki-block overflow-x-auto px-4 py-4 font-mono text-[13px] leading-relaxed text-foreground">
-        <code className="grid">
-          {res.lines.map((line, i) => (
-            <span key={i} className="line">
-              {line.tokens.map((token, j) => (
-                <span key={j} style={token.style}>
-                  {token.content}
+      <div className="relative">
+        <pre className="shiki-block overflow-x-auto px-4 py-4 font-mono text-[13px] leading-relaxed text-foreground">
+          <code className="grid">
+            {res.lines.map((line, i) => (
+              <span key={i} className="line">
+                <span className="inline-block w-8 shrink-0 select-none text-right pr-4 text-muted-foreground/50">
+                  {i + 1}
                 </span>
-              ))}
-              {"\n"}
-            </span>
-          ))}
-        </code>
-      </pre>
+                {line.tokens.map((token, j) => (
+                  <span key={j} style={token.style}>
+                    {token.content}
+                  </span>
+                ))}
+                {"\n"}
+              </span>
+            ))}
+          </code>
+        </pre>
+      </div>
     </figure>
   );
 }
@@ -190,15 +203,6 @@ const CONTENT: Record<string, React.ReactNode> = {
         built on top of both, the way Next.js is built on top of React - it
         does not replace either language; it frames them as one project.
       </P>
-      <P>
-        The folder is the mental model. A feature is one directory on the web
-        surface, and the intelligence it needs lives in the same place, in
-        Python, imported by its real name:
-      </P>
-      <CodeBlock file="app/page-one/">
-{`page.tsx           # the web surface (TypeScript)
-server_actions.py  # the intelligence (Python)`}
-      </CodeBlock>
       <P>
         The names line up because the framework put them there: one route, one
         directory, two worlds already connected. You think in one feature at a
@@ -440,9 +444,9 @@ Created my-app/ using template(s): base`}
 $ npm install
 $ npm run dev
 
-  VITE  v6.0.0  ready in 320 ms
-  -  Local:   http://localhost:5173/
-  NITRO  listening on http://localhost:3000/`}
+TSPY dev server
+- Local:   http://localhost:3000
+✓ Ready in XXXms`}
       </CodeBlock>
     </>
   ),
@@ -613,6 +617,56 @@ export default defineConfig({
         <Code>tspy/server</Code>.
       </P>
 
+      <H3 id="server-side">Server-side verification</H3>
+      <P>
+        The handler in <Code>server/auth/</Code> is where tokens are verified.
+        The scaffolded pattern reads credentials from the environment and
+        exposes an <Code>auth</Code> object on <Code>tspy/server</Code>:
+      </P>
+      <CodeBlock file="server/auth/better-auth.ts" title="A self-hosted handler">
+{`import { betterAuth } from "better-auth";
+
+const secret = process.env.BETTER_AUTH_SECRET;
+const baseURL = process.env.BETTER_AUTH_URL;
+
+if (!secret) throw new Error("BETTER_AUTH_SECRET is not set");
+if (!baseURL) throw new Error("BETTER_AUTH_URL is not set");
+
+export const auth = betterAuth({
+  secret,
+  baseURL,
+  emailAndPassword: { enabled: true },
+});`}
+      </CodeBlock>
+      <P>
+        Environment variables are the contract — each provider template writes
+        its expected keys into <Code>.env.example</Code> so a fresh clone can be
+        filled in without guessing names.
+      </P>
+
+      <H3 id="protecting-routes">Protecting routes</H3>
+      <P>
+        Middleware runs before the route handlers and before the Python RPC
+        boundary. A protected API route never performs work without a verified
+        session:
+      </P>
+      <CodeBlock file="server/api/me.ts">
+{`import { auth } from "tspy/server";
+
+export default defineEventHandler(async (event) => {
+  const session = await auth.getSession(event);
+  if (!session) throw createError({ statusCode: 401 });
+  return session.user;
+});`}
+      </CodeBlock>
+      <Checklist
+        items={[
+          <>The websocket, /api, and server actions all go through the same session verification.</>,
+          <>Unverified requests fail in middleware — they never reach a handler or Python.</>,
+          <>Client-side, the frontend renders based on session state from the same <Code>auth</Code> boundary.</>,
+        ]}
+      />
+
       <H3 id="clerk">Clerk wires the client</H3>
       <P>
         Clerk is the one provider that spans the client side: a publishable key
@@ -624,11 +678,132 @@ export default defineConfig({
       <H3 id="credentials">Credentials</H3>
       <P>
         Keys arrive through the environment. Each provider template writes its
-        expected variables into <Code>.env.example</Code> -{" "}
+        expected variables into <Code>.env.example</Code> —{" "}
         <Code>BETTER_AUTH_SECRET</Code>, <Code>CLERK_SECRET_KEY</Code>,{" "}
         <Code>FIREBASE_PRIVATE_KEY</Code>, <Code>SUPABASE_ANON_KEY</Code>,{" "}
-        <Code>WORKOS_API_KEY</Code> - so a repo clone can be filled in without
+        <Code>WORKOS_API_KEY</Code> — so a repo clone can be filled in without
         guessing names.
+      </P>
+      <Callout>
+        TSPY does not define its own auth protocol. It wires the provider you
+        chose — the JWT format, session store, and verification rules belong to
+        Better Auth, Clerk, Firebase, or Supabase. TSPY makes the wiring
+        automatic and typed.
+      </Callout>
+
+      <H3 id="better-auth">Better Auth</H3>
+      <P>
+        Open-source, self-hosted auth. Better Auth runs on your server with no
+        external dependencies. Supports email/password, magic links, and social
+        providers (GitHub, Google, etc.). Sessions are stored in your database.
+      </P>
+      <CodeBlock file="tspy.config.ts">
+{`import { defineConfig } from "tspy";
+import { betterAuth } from "@tspy/better-auth";
+
+export default defineConfig({
+  auth: betterAuth({
+    emailAndPassword: { enabled: true },
+    socialProviders: {
+      github: { clientId: "...", clientSecret: "..." },
+    },
+  }),
+});`}
+      </CodeBlock>
+      <P>
+        Env vars: <Code>BETTER_AUTH_SECRET</Code>,{" "}
+        <Code>BETTER_AUTH_URL</Code>. The handler mounts at{" "}
+        <Code>/api/auth/[...auth]</Code>.
+      </P>
+
+      <H3 id="clerk-provider">Clerk</H3>
+      <P>
+        Managed auth service. Clerk handles user management, sessions, and
+        multi-factor authentication. The publishable key goes to the client
+        (wraps the app), the secret key stays server-side.
+      </P>
+      <CodeBlock file="tspy.config.ts">
+{`import { defineConfig } from "tspy";
+import { clerk } from "@tspy/clerk";
+
+export default defineConfig({
+  auth: clerk({
+    publishableKey: "...",
+    secretKey: "...",
+  }),
+});`}
+      </CodeBlock>
+      <P>
+        Env vars: <Code>CLERK_PUBLISHABLE_KEY</Code>,{" "}
+        <Code>CLERK_SECRET_KEY</Code>.
+      </P>
+
+      <H3 id="firebase-provider">Firebase</H3>
+      <P>
+        Google Firebase Authentication. Uses your Firebase project credentials
+        (service account) to verify tokens. Supports email/password, Google
+        Sign-In, phone auth, and anonymous auth.
+      </P>
+      <CodeBlock file="tspy.config.ts">
+{`import { defineConfig } from "tspy";
+import { firebase } from "@tspy/firebase";
+
+export default defineConfig({
+  auth: firebase({
+    projectId: "...",
+    clientEmail: "...",
+    privateKey: "...",
+  }),
+});`}
+      </CodeBlock>
+      <P>
+        Env vars: <Code>FIREBASE_PROJECT_ID</Code>,{" "}
+        <Code>FIREBASE_CLIENT_EMAIL</Code>,{" "}
+        <Code>FIREBASE_PRIVATE_KEY</Code>.
+      </P>
+
+      <H3 id="supabase-provider">Supabase</H3>
+      <P>
+        Supabase auth with your Supabase project. Uses the project URL and
+        anon key. Sessions are managed by Supabase; your server verifies JWTs
+        against the Supabase API.
+      </P>
+      <CodeBlock file="tspy.config.ts">
+{`import { defineConfig } from "tspy";
+import { supabase } from "@tspy/supabase";
+
+export default defineConfig({
+  auth: supabase({
+    url: "https://xxx.supabase.co",
+    anonKey: "...",
+  }),
+});`}
+      </CodeBlock>
+      <P>
+        Env vars: <Code>SUPABASE_URL</Code>, <Code>SUPABASE_ANON_KEY</Code>.
+      </P>
+
+      <H3 id="workos-provider">WorkOS</H3>
+      <P>
+        Enterprise SSO and directory sync. WorkOS supports SAML, OIDC, and
+        social logins. Ideal for B2B apps that need to connect to customer
+        identity providers.
+      </P>
+      <CodeBlock file="tspy.config.ts">
+{`import { defineConfig } from "tspy";
+import { workos } from "@tspy/workos";
+
+export default defineConfig({
+  auth: workos({
+    apiKey: "...",
+    clientId: "...",
+    redirectUri: "...",
+  }),
+});`}
+      </CodeBlock>
+      <P>
+        Env vars: <Code>WORKOS_API_KEY</Code>, <Code>WORKOS_CLIENT_ID</Code>,{" "}
+        <Code>WORKOS_REDIRECT_URI</Code>.
       </P>
     </>
   ),
@@ -659,19 +834,35 @@ export default defineConfig({
 });`}
       </CodeBlock>
 
-      <H3 id="files">What you get</H3>
+      <H3 id="client">The client</H3>
       <P>
-        The database layer lives under <Code>server/db/</Code>: a client
-        initialized from the config, a first schema (or migration) file, and a
-        seed script. The client is exposed at runtime as the <Code>db</Code>{" "}
-        export of <Code>tspy/server</Code>.
+        The database client is initialized in <Code>server/db/</Code> and is
+        exposed at runtime as the <Code>db</Code> export of{" "}
+        <Code>tspy/server</Code> — injected into Hono&apos;s context, making it
+        easily accessible inside any API route handler:
+      </P>
+      <CodeBlock file="server/db/client.ts" title="A Drizzle + SQLite client">
+{`import { createClient } from "@libsql/client";
+import { drizzle } from "drizzle-orm/libsql";
+import * as schema from "./schema";
+
+const url = process.env.DATABASE_URL;
+if (!url) throw new Error("DATABASE_URL is not set");
+
+const client = createClient({ url });
+export const db = drizzle({ client, schema });`}
+      </CodeBlock>
+      <P>
+        The client is constructed on the server and never imported into the
+        client bundle. Keeping it under <Code>server/</Code> is what guarantees
+        the driver and connection pool stay out of the React app.
       </P>
 
       <H3 id="rules">Rules</H3>
       <Checklist
         items={[
           <>
-            One engine and one access layer per project - no ORM mixing.
+            One engine and one access layer per project — no ORM mixing.
           </>,
           <>
             The client is constructed on the server and never imported into the
@@ -681,8 +872,110 @@ export default defineConfig({
             SQLite in development, PostgreSQL in production, no code changes:
             the URL and provider are config, not code.
           </>,
+          <>
+            <Code>DATABASE_URL</Code> is the single environment variable; the
+            scaffolded <Code>.env.example</Code> names it.
+          </>,
         ]}
       />
+
+      <H3 id="loading">Connecting at startup</H3>
+      <P>
+        Server routes can import <Code>db</Code> directly from{" "}
+        <Code>tspy/server</Code>. The client initializes lazily from the
+        environment, so a missing <Code>DATABASE_URL</Code> fails fast at the
+        first query with a clear error rather than at process start:
+      </P>
+      <CodeBlock file="server/api/health.ts">
+{`import { db } from "tspy/server";
+
+export default defineEventHandler(async () => {
+  const row = await db.query.users.findFirst();
+  return { ok: true, firstUser: row?.email ?? null };
+});`}
+      </CodeBlock>
+      <Callout>
+        The access layer (Prisma, Drizzle, Kysely) only changes the query code.
+        The boundary — <Code>db</Code> on <Code>tspy/server</Code> — stays the
+        same. Swapping Drizzle for Prisma is a config change plus a rewrite of
+        the query files, nothing else in the app moves.
+      </Callout>
+
+      <H3 id="prisma-provider">Prisma</H3>
+      <P>
+        Schema-first ORM. Prisma uses a <Code>schema.prisma</Code> file to
+        define your data model, then generates a type-safe client. Best for
+        teams that want a single source of truth for their database schema.
+      </P>
+      <CodeBlock file="tspy.config.ts">
+{`import { defineConfig } from "tspy";
+import { prisma } from "@tspy/prisma";
+
+export default defineConfig({
+  database: prisma({ provider: "postgresql", url: env("DATABASE_URL") }),
+});`}
+      </CodeBlock>
+      <P>
+        Generates <Code>db</Code> on <Code>tspy/server</Code> with full
+        Prisma Client types. Run <Code>npx prisma migrate dev</Code> to manage
+        schema migrations.
+      </P>
+
+      <H3 id="drizzle-provider">Drizzle</H3>
+      <P>
+        TypeScript-first ORM with a SQL-like query builder. Drizzle infers
+        types from your schema definitions — no code generation step. Lightweight
+        and fast, with first-class SQLite and PostgreSQL support.
+      </P>
+      <CodeBlock file="tspy.config.ts">
+{`import { defineConfig } from "tspy";
+import { drizzle } from "@tspy/drizzle";
+
+export default defineConfig({
+  database: drizzle({ provider: "sqlite", url: "file:./db.sqlite" }),
+});`}
+      </CodeBlock>
+      <P>
+        Generates <Code>db</Code> on <Code>tspy/server</Code> with Drizzle's
+        query builder. Use <Code>drizzle-kit</Code> for migrations.
+      </P>
+
+      <H3 id="kysely-provider">Kysely</H3>
+      <P>
+        Type-safe SQL query builder. Kysely gives you full SQL power with
+        TypeScript autocompletion. No ORM overhead — you write SQL, Kysely
+        makes it type-safe.
+      </P>
+      <CodeBlock file="tspy.config.ts">
+{`import { defineConfig } from "tspy";
+import { kysely } from "@tspy/kysely";
+
+export default defineConfig({
+  database: kysely({ provider: "postgres", url: env("DATABASE_URL") }),
+});`}
+      </CodeBlock>
+      <P>
+        Generates <Code>db</Code> on <Code>tspy/server</Code> with Kysely's
+        query builder. Write raw SQL with full type inference.
+      </P>
+
+      <H3 id="sql-provider">Raw SQL</H3>
+      <P>
+        No abstraction. Use the database driver directly — pg, better-sqlite3,
+        or mysql2. Full control over queries, connections, and pooling.
+      </P>
+      <CodeBlock file="tspy.config.ts">
+{`import { defineConfig } from "tspy";
+import { sql } from "@tspy/sql";
+
+export default defineConfig({
+  database: sql({ provider: "sqlite", url: "file:./db.sqlite" }),
+});`}
+      </CodeBlock>
+      <P>
+        Generates <Code>db</Code> on <Code>tspy/server</Code> as a raw driver
+        instance. You write the queries, you manage the connection.
+      </P>
     </>
   ),
 
@@ -724,6 +1017,92 @@ export default defineConfig({
         the scaffold. Enable what the feature needs, in Python, next to the
         route that uses it.
       </P>
+
+      <H3 id="openai-provider">OpenAI</H3>
+      <P>
+        OpenAI's GPT models. The plugin hands you the official OpenAI Python SDK
+        client as <Code>ai</Code> on <Code>tspy/server</Code>. Supports
+        chat completions, function calling, and vision.
+      </P>
+      <CodeBlock file="tspy.config.ts">
+{`import { defineConfig } from "tspy";
+import { openai } from "@tspy/openai";
+
+export default defineConfig({
+  ai: openai({
+    apiKey: process.env.OPENAI_API_KEY!,
+    model: "gpt-4o",
+  }),
+});`}
+      </CodeBlock>
+      <P>
+        Env var: <Code>OPENAI_API_KEY</Code>. Default model:{" "}
+        <Code>gpt-4o</Code>.
+      </P>
+
+      <H3 id="anthropic-provider">Anthropic</H3>
+      <P>
+        Anthropic's Claude models. The plugin provides the official Anthropic
+        Python SDK. Claude excels at long-context reasoning, coding, and
+        analysis.
+      </P>
+      <CodeBlock file="tspy.config.ts">
+{`import { defineConfig } from "tspy";
+import { anthropic } from "@tspy/anthropic";
+
+export default defineConfig({
+  ai: anthropic({
+    apiKey: process.env.ANTHROPIC_API_KEY!,
+    model: "claude-sonnet-4-5",
+  }),
+});`}
+      </CodeBlock>
+      <P>
+        Env var: <Code>ANTHROPIC_API_KEY</Code>. Default model:{" "}
+        <Code>claude-sonnet-4-5</Code>.
+      </P>
+
+      <H3 id="google-provider">Google Gemini</H3>
+      <P>
+        Google's Gemini models via the Google AI Python SDK. Gemini supports
+        multimodal input (text, images, video) and has a generous free tier.
+      </P>
+      <CodeBlock file="tspy.config.ts">
+{`import { defineConfig } from "tspy";
+import { google } from "@tspy/google";
+
+export default defineConfig({
+  ai: google({
+    apiKey: process.env.GOOGLE_AI_API_KEY!,
+    model: "gemini-2.5-pro",
+  }),
+});`}
+      </CodeBlock>
+      <P>
+        Env var: <Code>GOOGLE_AI_API_KEY</Code>. Default model:{" "}
+        <Code>gemini-2.5-pro</Code>.
+      </P>
+
+      <H3 id="ollama-provider">Ollama</H3>
+      <P>
+        Local models via Ollama. No API key needed — Ollama runs models on your
+        machine. Great for development, testing, and privacy-sensitive workloads.
+      </P>
+      <CodeBlock file="tspy.config.ts">
+{`import { defineConfig } from "tspy";
+import { ollama } from "@tspy/ollama";
+
+export default defineConfig({
+  ai: ollama({
+    baseUrl: "http://localhost:11434",
+    model: "llama3.2",
+  }),
+});`}
+      </CodeBlock>
+      <P>
+        No env var needed. Default model: <Code>llama3.2</Code>. Ensure Ollama
+        is running locally.
+      </P>
     </>
   ),
 
@@ -760,6 +1139,65 @@ export default defineConfig({
         Redis or RabbitMQ as the transport - the broker value is configuration,
         so switching it in development versus production changes a URL, not
         code.
+      </P>
+
+      <H3 id="celery-provider">Celery</H3>
+      <P>
+        The most widely used Python task queue. Celery supports Redis and
+        RabbitMQ brokers, scheduled tasks, retries, and task chains. The plugin
+        scaffolds a worker entrypoint under <Code>jobs/</Code>.
+      </P>
+      <CodeBlock file="tspy.config.ts">
+{`import { defineConfig } from "tspy";
+import { celery } from "@tspy/celery";
+
+export default defineConfig({
+  jobs: celery({ broker: "redis://localhost:6379" }),
+});`}
+      </CodeBlock>
+      <P>
+        Scaffolded under <Code>jobs/</Code>. Enqueue with{" "}
+        <Code>jobs.enqueue("tasks.add", args=[1, 2])</Code> from{" "}
+        <Code>tspy/server</Code>.
+      </P>
+
+      <H3 id="rq-provider">RQ</H3>
+      <P>
+        Redis Queue. Simple, lightweight, Redis-only. RQ is ideal for smaller
+        workloads where you want minimal setup. No broker choice — it's always
+        Redis.
+      </P>
+      <CodeBlock file="tspy.config.ts">
+{`import { defineConfig } from "tspy";
+import { rq } from "@tspy/rq";
+
+export default defineConfig({
+  jobs: rq({ broker: "redis://localhost:6379" }),
+});`}
+      </CodeBlock>
+      <P>
+        Redis-only. Enqueue with{" "}
+        <Code>jobs.enqueue("my_func", arg1, arg2)</Code> from{" "}
+        <Code>tspy/server</Code>.
+      </P>
+
+      <H3 id="dramatiq-provider">Dramatiq</H3>
+      <P>
+        A fast, reliable task processing library. Dramatiq supports Redis and
+        RabbitMQ, with built-in retries, rate limiting, and priority queues.
+        Simpler API than Celery.
+      </P>
+      <CodeBlock file="tspy.config.ts">
+{`import { defineConfig } from "tspy";
+import { dramatiq } from "@tspy/dramatiq";
+
+export default defineConfig({
+  jobs: dramatiq({ broker: "redis://localhost:6379" }),
+});`}
+      </CodeBlock>
+      <P>
+        Enqueue with <Code>jobs.enqueue("my_task", arg1)</Code> from{" "}
+        <Code>tspy/server</Code>.
       </P>
     </>
   ),
@@ -846,23 +1284,33 @@ TSPY dev server
         A fresh tspy project is a single directory with four fixed top-level
         folders. Only the folders you asked for are generated:
       </P>
-      <CodeBlock file="my-app/">
-{`my-app/
-|-- app/                # the web application (TypeScript)
-|   |-- globals.css
-|   |-- layout.tsx      # root layout
-|   \`-- page.tsx        # the home page
-|-- server/             # the Nitro backend (TypeScript)
-|   |-- api/
-|   |   \`-- health.ts   # example API route
-|   \`-- auth/           # only when an auth provider is selected
-|-- ai/                 # AI capabilities (Python) - when selected
-|-- jobs/               # background jobs (Python) - when selected
-|-- public/             # static assets
-|-- tspy.config.ts      # the framework config
-|-- package.json
-\`-- pyproject.toml      # Python dependencies (AI / jobs)`}
-      </CodeBlock>
+      <Tree className="my-6 rounded-xl border border-border p-4">
+        <Folder name="my-app" defaultOpen>
+          <Folder name="app" defaultOpen>
+            <File name="globals.css" />
+            <File name="layout.tsx" type="root layout" />
+            <File name="page.tsx" type="home page" />
+          </Folder>
+          <Folder name="server" defaultOpen>
+            <Folder name="api" defaultOpen>
+              <File name="health.ts" type="API route" />
+            </Folder>
+            <Folder name="auth">
+              <File name="..." type="when auth selected" />
+            </Folder>
+          </Folder>
+          <Folder name="ai">
+            <File name="..." type="Python, when selected" />
+          </Folder>
+          <Folder name="jobs">
+            <File name="..." type="Python, when selected" />
+          </Folder>
+          <Folder name="public" />
+          <File name="tspy.config.ts" type="config" />
+          <File name="package.json" />
+          <File name="pyproject.toml" type="Python deps" />
+        </Folder>
+      </Tree>
 
       <H3 id="app">app - the web application</H3>
       <P>
@@ -877,13 +1325,15 @@ TSPY dev server
         The Nitro server in TypeScript holds API routes under{" "}
         <Code>server/api/</Code>, with auth and database layers appearing under
         <Code>server/auth/</Code> and <Code>server/db/</Code> when those
-        templates are selected. Every route under <Code>server/api/**</Code> is
-        served on the <Code>/api</Code> path and proxied by the dev server.
+        templates are selected. Every handler under <Code>server/api/**</Code>{" "}
+        becomes a <Code>POST /api/...</Code> endpoint — the routing and type
+        generation are handled internally by the framework.
       </P>
       <CodeBlock file="server/api/health.ts">
-{`export default defineEventHandler(() => ({
-  ok: true,
-  service: "tspy-demo",
+{`import { defineEventHandler } from "h3";
+
+export default defineEventHandler(() => ({
+  status: "ok",
 }));`}
       </CodeBlock>
 
@@ -916,6 +1366,20 @@ export default defineConfig({
   jobs: celery({ broker: "redis://localhost:6379" }),
 });`}
       </CodeBlock>
+
+      <H3 id="conventions">Conventions</H3>
+      <P>
+        The folder structure is the contract. Read a generated project and the
+        layout tells you where the web stops and the intelligence begins.{" "}
+        <Code>app/</Code> is always the client. <Code>server/</Code> is always
+        the backend. <Code>ai/</Code> and <Code>jobs/</Code> are first-class
+        Python dimensions, not afterthoughts buried under the server.
+      </P>
+      <P>
+        Provider packages stay independent - each integration (auth, database,
+        AI, jobs) is a plugin composed in <Code>tspy.config.ts</Code>, not a
+        framework abstraction you're locked into.
+      </P>
     </>
   ),
 
@@ -1086,6 +1550,206 @@ templates applied, in order:
         <Code>.env.example</Code> lists every variable the project needs, so a
         clone can be filled in without guessing names.
       </P>
+    </>
+  ),
+  deployment: (
+    <>
+      <H3 id="build-output">Build output</H3>
+      <P>
+        Running <Code>npm run build</Code> produces a single{" "}
+        <Code>.output/</Code> directory. Inside it,{" "}
+        <Code>server/index.mjs</Code> is the Nitro server (API + SPA
+        fallback), and <Code>public/</Code> holds the Vite client assets with
+        hashed filenames.
+      </P>
+      <H3 id="nitro-presets">Nitro presets</H3>
+      <P>
+        Nitro&apos;s deployment presets carry over unchanged. Set{" "}
+        <Code>nitro.preset</Code> in your Nitro config to target any supported
+        platform. No tspy abstraction needed — it&apos;s standard Nitro.
+      </P>
+      <H3 id="platforms">Supported platforms</H3>
+      <P>
+        One build, deploy anywhere. TSPY uses Nitro under the hood, which means
+        you get first-class support for every major deployment target. Set the
+        preset in your config and deploy.
+      </P>
+
+      <H3 id="platform-vercel">Vercel</H3>
+      <P>
+        Deploy to Vercel with zero config. Nitro&apos;s Vercel preset handles
+        serverless functions, edge middleware, and static asset serving
+        automatically. Push to git and Vercel builds and deploys your app.
+      </P>
+      <CodeBlock>{`// tspy.config.ts or nitro.config.ts
+export default defineNitroConfig({
+  preset: "vercel"
+});`}</CodeBlock>
+
+      <H3 id="platform-netlify">Netlify</H3>
+      <P>
+        Netlify deploys with the <Code>netlify</Code> preset. Edge functions,
+        server-side rendering, and form handling all work out of the box. Connect
+        your git repo for continuous deployment.
+      </P>
+      <CodeBlock>{`export default defineNitroConfig({
+  preset: "netlify"
+});`}</CodeBlock>
+
+      <H3 id="platform-cloudflare">Cloudflare Workers</H3>
+      <P>
+        Run on Cloudflare&apos;s edge network with the{" "}
+        <Code>cloudflare</Code> preset. Your API handlers run as Workers,
+        assets go to R2 or KV, and you get sub-millisecond cold starts worldwide.
+      </P>
+      <CodeBlock>{`export default defineNitroConfig({
+  preset: "cloudflare"
+});`}</CodeBlock>
+
+      <H3 id="platform-aws">AWS</H3>
+      <P>
+        Deploy to AWS Lambda, API Gateway, or ECS with the{" "}
+        <Code>aws-lambda</Code> or <Code>node-server</Code> preset. TSPY
+        generates a standard Node.js server that runs anywhere — containerize it
+        with Docker for ECS or Fargate.
+      </P>
+      <CodeBlock>{`// For Lambda
+export default defineNitroConfig({
+  preset: "aws-lambda"
+});
+
+// For Docker / ECS
+export default defineNitroConfig({
+  preset: "node-server"
+});`}</CodeBlock>
+
+      <H3 id="platform-deno">Deno Deploy</H3>
+      <P>
+        Deploy to Deno Deploy with the <Code>deno</Code> preset. Your TSPY
+        server runs on Deno&apos;s edge runtime with native TypeScript support,
+        no transpilation step needed.
+      </P>
+      <CodeBlock>{`export default defineNitroConfig({
+  preset: "deno"
+});`}</CodeBlock>
+
+      <H3 id="platform-node">Node.js / Docker</H3>
+      <P>
+        The <Code>node-server</Code> preset builds a standard Node.js server.
+        Wrap it in a Dockerfile and deploy to any container platform — Railway,
+        Fly.io, Render, your own VPS, or Kubernetes.
+      </P>
+      <CodeBlock>{`export default defineNitroConfig({
+  preset: "node-server"
+});`}</CodeBlock>
+      <CodeBlock file="Dockerfile">{`FROM node:20-alpine
+WORKDIR /app
+COPY .output/ ./
+EXPOSE 3000
+CMD ["node", "server/index.mjs"]`}</CodeBlock>
+    </>
+  ),
+
+  "ci-cd": (
+    <>
+      <P>
+        Set up continuous integration and delivery for your tspy project. GitHub
+        Actions, testing, and deployment pipelines.
+      </P>
+      <Callout>
+        This section is coming soon. We&apos;ll cover GitHub Actions workflows,
+        testing strategies, and automated deployment pipelines.
+      </Callout>
+    </>
+  ),
+
+  "agentic-integration": (
+    <>
+      <P>
+        Build AI agents that act autonomously — tool calling, MCP integration,
+        multi-step workflows, and human-in-the-loop patterns.
+      </P>
+      <Callout>
+        This section is coming soon. We&apos;ll cover agent architectures, tool
+        definitions, and how to wire Python agents into your tspy app.
+      </Callout>
+    </>
+  ),
+
+  "integrations-overview": (
+    <>
+      <P>
+        Register services once, get typed callers, providers, middleware, and
+        database models. tspy integrations are plugin packages composed in{" "}
+        <Code>tspy.config.ts</Code>.
+      </P>
+      <Callout>
+        This section is a work in progress. Full integration guides are coming
+        soon.
+      </Callout>
+    </>
+  ),
+
+  "runtime-overview": (
+    <>
+      <P>
+        Cache, observability, cron, and deployment output — the runtime layer
+        that sits between your code and the platform.
+      </P>
+      <Callout>
+        This section is coming soon. We&apos;ll cover caching strategies,
+        observability, cron jobs, and runtime configuration.
+      </Callout>
+    </>
+  ),
+
+  testing: (
+    <>
+      <P>
+        Unit tests, integration tests, and end-to-end testing for your tspy
+        project.
+      </P>
+      <Callout>
+        This section is coming soon. We&apos;ll cover testing strategies,
+        Vitest setup, and testing auth/database/AI integrations.
+      </Callout>
+    </>
+  ),
+
+  cli: (
+    <>
+      <P>
+        The tspy CLI commands: <Code>dev</Code>, <Code>build</Code>, and more.
+      </P>
+      <Callout>
+        This section is coming soon. We&apos;ll document every CLI command and
+        flag.
+      </Callout>
+    </>
+  ),
+
+  examples: (
+    <>
+      <P>
+        Example projects demonstrating routing, auth, database, AI, and API
+        patterns.
+      </P>
+      <Callout>
+        This section is coming soon. We&apos;ll link to example projects and
+        walkthroughs.
+      </Callout>
+    </>
+  ),
+
+  reference: (
+    <>
+      <P>
+        A compact map of the main package exports and where to learn more.
+      </P>
+      <Callout>
+        This section is coming soon. We&apos;ll document every package export
+        and API surface.
+      </Callout>
     </>
   ),
 

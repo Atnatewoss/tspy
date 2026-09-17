@@ -25,16 +25,6 @@ export function BuildPipeline() {
       <CodeBlock title="tspy build">
 {`$ tspy build
 
-  VITE  v6.0.0  building for production...
-  ✓ 42 modules transformed
-  ✓ dist/  12.4 kB  (entry)
-             ... route chunks, CSS
-
-  NITRO  building...
-  ✓ .output/ written
-  ✓ 17 server routes compiled
-  ✓ React SPA fallback mounted
-
 ✓ Build complete in 1.8s`}
       </CodeBlock>
       <P>
@@ -52,7 +42,7 @@ export function BuildPipeline() {
       <CodeBlock title=".output/ structure">
 {`.output/
 |-- server/
-|   \`-- index.mjs         # the Nitro server (Hono + API + SPA fallback)
+|   \`-- index.mjs         # the Nitro server (API + SPA fallback)
 |-- public/
 |   |-- index.html         # the Vite client entry
 |   \`-- assets/            # hashed JS/CSS chunks`}

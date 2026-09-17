@@ -7,13 +7,7 @@
 
 <h1 align="center">TSPY</h1>
 
-<p align="center">
-  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-blue.svg" /></a>
-  <img alt="Node" src="https://img.shields.io/badge/node-%3E%3D20-brightgreen" />
-  <img alt="pnpm" src="https://img.shields.io/badge/pnpm-11-orange" />
-</p>
-
-<p align="center"><strong>TypeScript on the web. Python for intelligence. One framework.</strong></p>
+<p align="center"><strong>An experimental full-stack React meta-framework for building intelligent web apps</strong></p>
 
 ---
 
@@ -48,16 +42,11 @@ The `tspy dev` server automatically launches both the Vite frontend server and N
 my-app/
 ├── app/
 │   ├── layout.tsx         # Root application layout
-│   ├── page.tsx           # Home page (/)
-│   ├── about/
-│   │   └── page.tsx       # About page (/about)
-│   └── users/
-│       └── [id]/
-│           └── page.tsx   # Dynamic user page (/users/:id)
+│   └── page.tsx           # Home page (/)
 ├── public/                # Static public assets
 ├── server/
 │   └── api/
-│       └── health.ts      # Nitro API route (GET /api/health)
+│       └── health.ts      # Nitro + hono API route (GET /api/health)
 └── package.json
 ```
 
@@ -69,11 +58,11 @@ my-app/
 | --- | --- | --- |
 | `app/layout.tsx` | Root Shell | Wraps the root component hierarchy |
 | `app/page.tsx` | `/` | Index route |
-| `app/about/page.tsx` | `/about` | Static route |
-| `app/users/[id]/page.tsx` | `/users/:id` | Dynamic parameter route (`params.id`) |
+| `app/'something'/page.tsx` | `/something` | Static route |
+| `app/'something'/[id]/page.tsx` | `/something/:id` | Dynamic parameter route (`params.id`) |
 | `app/docs/[...slug]/page.tsx` | `/docs/*` | Catch-all wildcard route (`params["*"]`) |
-| `app/dashboard/layout.tsx` | Dashboard Shell | Nested layout wrapper |
-| `app/dashboard/page.tsx` | `/dashboard` | Nested index route |
+| `app/'something'/layout.tsx` | something Shell | Nested layout wrapper |
+| `app/'something'/page.tsx` | `/something` | Nested index route |
 
 ### Writing a Layout
 
