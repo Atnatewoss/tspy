@@ -119,7 +119,7 @@ export function ThemeSwitcher({ small }: { small?: boolean }) {
                   setTheme(opt.value);
                   setOpen(false);
                 }}
-                className={`flex w-full items-center gap-2.5 px-3 py-2 text-sm transition-colors ${
+                className={`flex w-full items-center gap-2.5 px-3 py-1 text-sm transition-colors ${
                   active
                     ? "bg-muted font-medium text-foreground"
                     : "text-muted-foreground hover:bg-muted hover:text-foreground"
