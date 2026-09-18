@@ -16,8 +16,7 @@ export type SectionDef = {
 
 export const DOCS_GROUPS = [
   { title: "Get Started", intro: "What tspy is, how to install it, and your first project built in one command." },
-  { title: "Concepts", intro: "The core ideas: routing, rendering, data flow, architecture, and the stack." },
-  { title: "Build & Dev", intro: "The dev server, build pipeline, HMR, configuration, and server architecture." },
+  { title: "Concepts", intro: "The core ideas: routing, rendering, data flow, and the stack." },
   { title: "Integrations", intro: "Auth, database, and the composable provider packages." },
   { title: "Runtime", intro: "Cache, observability, cron, and deployment output." },
   { title: "Deployment", intro: "Ship your project to any platform." },
@@ -90,7 +89,8 @@ export const DOCS_SECTION_DEFS: SectionDef[] = [
     title: "Filesystem routing",
     group: "Concepts",
     subcategory: "Core",
-    intro: "How TSPY discovers pages from the app/ directory using build-time scanning, builds a RouteManifestNode tree, generates a virtual module with lazy dynamic imports, and adapts layouts to React Router.",
+    intro:
+      "Routes are files. tspy scans app/ at build time, builds a route tree, and compiles it into a virtual module that React Router consumes. No manual registration.",
     subsections: [
       { id: "the-convention", title: "The convention" },
       { id: "discovery", title: "Build-time discovery" },
@@ -124,23 +124,12 @@ export const DOCS_SECTION_DEFS: SectionDef[] = [
     ],
   },
   {
-    slug: "python-execution-model",
-    title: "Python Execution",
-    group: "Concepts",
-    subcategory: "Core",
-    intro: "How the Python runtime is managed in dev and production.",
-    subsections: [
-      { id: "runtime", title: "Runtime" },
-      { id: "dev-vs-prod", title: "Dev versus production" },
-      { id: "deployment", title: "Deployment" },
-    ],
-  },
-  {
     slug: "the-rpc-boundary",
     title: "The RPC Boundary",
     group: "Concepts",
     subcategory: "Core",
-    intro: "How TypeScript and Python communicate safely.",
+    intro:
+      "The typed contract between TypeScript and Python. Call a Python function like a local one - serialization, transport, and types are generated for you.",
     subsections: [
       { id: "communication", title: "Communication" },
       { id: "generation", title: "Generation" },
@@ -191,7 +180,8 @@ export const DOCS_SECTION_DEFS: SectionDef[] = [
     title: "AI Capabilities",
     group: "Concepts",
     subcategory: "Integrations",
-    intro: "Structure of the ai/ folder, LLM clients, and agent orchestration.",
+    intro:
+      "The ai/ folder is Python. Each module is callable from TypeScript through the generated RPC boundary, and every provider plugin hands you the official SDK client.",
     subsections: [
       { id: "structure", title: "Structure" },
       { id: "providers", title: "Providers" },
@@ -203,7 +193,8 @@ export const DOCS_SECTION_DEFS: SectionDef[] = [
     title: "Background Jobs",
     group: "Concepts",
     subcategory: "Integrations",
-    intro: "Structure of the jobs/ folder, workers, and message brokers (Celery/Redis).",
+    intro:
+      "The jobs/ folder is Python. Tasks enqueued from TypeScript are executed by a worker process over Redis or RabbitMQ.",
     subsections: [
       { id: "workers", title: "Workers" },
       { id: "flow", title: "The flow" },
@@ -211,39 +202,6 @@ export const DOCS_SECTION_DEFS: SectionDef[] = [
     ],
   },
 
-  // ── Build & Dev ──
-  {
-    slug: "vite-and-nitro",
-    title: "Vite and Nitro",
-    group: "Build & Dev",
-    intro: "TSPY owns Vite and Nitro, not the other way around. This chapter covers why index.html is an internal detail, how the dev server orchestrates both runtimes, and what the Vite plugin does.",
-    subsections: [
-      { id: "why-no-index-html", title: "Why no index.html" },
-      { id: "vite-inside-tspy", title: "Vite inside TSPY" },
-      { id: "nitro-inside-tspy", title: "Nitro inside TSPY" },
-    ],
-  },
-  {
-    slug: "the-dev-server",
-    title: "The Dev Server",
-    group: "Build & Dev",
-    intro: "How tspy dev orchestrates processes, proxies requests, and handles ports.",
-    subsections: [
-      { id: "orchestration", title: "Orchestration" },
-      { id: "ports", title: "Ports" },
-      { id: "proxying", title: "Proxying" },
-    ],
-  },
-  {
-    slug: "hmr-and-watchers",
-    title: "HMR & Watchers",
-    group: "Build & Dev",
-    intro: "The chokidar integration, module graph invalidation, and recovering from route conflicts.",
-    subsections: [
-      { id: "chokidar", title: "Chokidar" },
-      { id: "invalidation", title: "Invalidation" },
-    ],
-  },
   {
     slug: "tspy-config",
     title: "Configuration",
@@ -256,97 +214,6 @@ export const DOCS_SECTION_DEFS: SectionDef[] = [
       { id: "runtime", title: "Runtime exports" },
     ],
   },
-  {
-    slug: "build-pipeline",
-    title: "Build Pipeline",
-    group: "Build & Dev",
-    intro: "The tspy build process, emitting the server bundle and client assets.",
-    subsections: [
-      { id: "the-build", title: "The Build" },
-      { id: "one-artifact", title: "One artifact" },
-      { id: "prerender", title: "Prerendering and targets" },
-    ],
-  },
-  {
-    slug: "the-parser-and-manifest",
-    title: "Parser & Manifest",
-    group: "Build & Dev",
-    intro: "How RouteManifestNode is built, conflict detection, and static analysis.",
-    subsections: [
-      { id: "the-parser", title: "The Parser" },
-      { id: "segment-transformations", title: "Segment Transformations" },
-      { id: "conflicts", title: "Conflict Detection" },
-    ],
-  },
-  {
-    slug: "virtual-modules",
-    title: "Virtual Modules",
-    group: "Build & Dev",
-    intro: "Inside virtual:tspy-routes, AST generation, and lazy loading.",
-    subsections: [
-      { id: "generator", title: "The Generator" },
-      { id: "code-generation", title: "Code Generation" },
-      { id: "lazy-loading", title: "Lazy Loading" },
-    ],
-  },
-  {
-    slug: "layout-adaptation",
-    title: "Layout Adaptation",
-    group: "Build & Dev",
-    intro: "How layout.tsx is wrapped in TSPYLayoutAdapter and React Router outlets.",
-    subsections: [
-      { id: "the-mismatch", title: "The mismatch" },
-      { id: "adaptation", title: "TSPYLayoutAdapter" },
-      { id: "why-not-outlet", title: "Why not require Outlet?" },
-    ],
-  },
-  {
-    slug: "how-it-works",
-    title: "How it works",
-    group: "Build & Dev",
-    intro:
-      "The generator always applies the base template first, then each selected template in order. Files the base already created are merged; everything else is written once.",
-    subsections: [
-      { id: "compose", title: "Composition" },
-      { id: "write-merge", title: "Write or merge" },
-      { id: "dev", title: "One dev command" },
-    ],
-  },
-
-  // ── Build & Dev (Server & API) ──
-  {
-    slug: "server-and-hono",
-    title: "The Server & Hono",
-    group: "Build & Dev",
-    intro: "Nitro runs the HTTP server. Hono is wired inside Nitro as the request handler. Neither is exposed in the developer API. This chapter explains the abstraction boundary and why Hono was chosen over Fastify.",
-    subsections: [
-      { id: "nitro-and-hono", title: "Nitro and Hono" },
-      { id: "why-hono", title: "Why Hono not Fastify" },
-    ],
-  },
-  {
-    slug: "api-proxying",
-    title: "API Proxying",
-    group: "Build & Dev",
-    intro: "How frontend fetches are intercepted and proxied to Nitro/Python.",
-    subsections: [
-      { id: "interception", title: "Interception" },
-      { id: "dev-vs-prod", title: "Dev vs production" },
-    ],
-  },
-  {
-    slug: "middleware-and-edge",
-    title: "Middleware & Edge",
-    group: "Build & Dev",
-    intro: "Where middleware runs, edge compatibility, and the request lifecycle.",
-    subsections: [
-      { id: "middleware", title: "Middleware" },
-      { id: "request-lifecycle", title: "Request lifecycle" },
-      { id: "edge", title: "Edge" },
-    ],
-  },
-
-  // ── Concepts (Python Integration) ──
 
   // ── Integrations ──
   {
@@ -423,23 +290,27 @@ export const DOCS_SECTION_DEFS: SectionDef[] = [
       "Background jobs are Python. Each system is a plugin package (@tspy/celery, @tspy/rq, @tspy/dramatiq) composed in tspy.config.ts, with a broker: Redis or RabbitMQ.",
     subsections: [
       { id: "systems", title: "Job systems" },
-      { id: "brokers", title: "Brokers" },
+      {
+        id: "brokers",
+        title: "Brokers",
+        children: [
+          { id: "redis", title: "Redis" },
+          { id: "rabbitmq", title: "RabbitMQ" },
+        ],
+      },
     ],
     children: [
       { slug: "jobs/celery-provider", title: "Celery" },
       { slug: "jobs/rq-provider", title: "RQ" },
       { slug: "jobs/dramatiq-provider", title: "Dramatiq" },
-    ],
-  },
-  {
-    slug: "merge-strategy",
-    title: "Merge strategy",
-    group: "Build & Dev",
-    intro:
-      "When a template writes a path that the base already created, the generator merges: package.json files deeply, pyproject.toml sections, .env.example keys, and everything else last writer wins.",
-    subsections: [
-      { id: "per-file", title: "Per-file strategy" },
-      { id: "example", title: "Example" },
+      {
+        slug: "jobs/brokers",
+        title: "Brokers",
+        children: [
+          { slug: "jobs/redis-broker", title: "Redis" },
+          { slug: "jobs/rabbitmq-broker", title: "RabbitMQ" },
+        ],
+      },
     ],
   },
 
@@ -451,6 +322,18 @@ export const DOCS_SECTION_DEFS: SectionDef[] = [
     intro:
       "Cache, observability, cron, and deployment output — the runtime layer that sits between your code and the platform.",
     subsections: [],
+  },
+  {
+    slug: "middleware-and-edge",
+    title: "Middleware & Edge",
+    group: "Runtime",
+    intro:
+      "Middleware runs in the Nitro server with h3's middleware shape: intercept requests, check auth, and attach context before the route handler - and deploy the whole server layer to the edge unchanged.",
+    subsections: [
+      { id: "middleware", title: "Middleware" },
+      { id: "request-lifecycle", title: "Request lifecycle" },
+      { id: "edge", title: "Edge" },
+    ],
   },
 
   // ── Deployment ──
@@ -467,10 +350,23 @@ export const DOCS_SECTION_DEFS: SectionDef[] = [
         { id: "platform-vercel", title: "Vercel" },
         { id: "platform-netlify", title: "Netlify" },
         { id: "platform-cloudflare", title: "Cloudflare Workers" },
-        { id: "platform-aws", title: "AWS" },
         { id: "platform-deno", title: "Deno Deploy" },
+        { id: "platform-flyio", title: "Fly.io" },
+        { id: "platform-railway", title: "Railway" },
+        { id: "platform-render", title: "Render" },
+        { id: "platform-aws", title: "AWS Lambda" },
         { id: "platform-node", title: "Node.js / Docker" },
       ]},
+    ],
+    children: [
+      { slug: "deployment/vercel", title: "Vercel" },
+      { slug: "deployment/netlify", title: "Netlify" },
+      { slug: "deployment/cloudflare", title: "Cloudflare" },
+      { slug: "deployment/deno-deploy", title: "Deno Deploy" },
+      { slug: "deployment/flyio", title: "Fly.io" },
+      { slug: "deployment/railway", title: "Railway" },
+      { slug: "deployment/render", title: "Render" },
+      { slug: "deployment/aws-lambda", title: "AWS Lambda" },
     ],
   },
 
@@ -669,7 +565,11 @@ export const SECTIONS: { id: string; title: string }[] = DOCS_SECTION_DEFS.map(
 /** Flat list of all child/grandchild SectionDef-compatible objects. */
 function buildChildDefs(defs: SectionDef[]): SectionDef[] {
   const out: SectionDef[] = [];
-  function walk(children: SidebarChild[], group: string, parentTitle: string) {
+  function walk(
+    children: SidebarChild[],
+    group: string,
+    parentTitle?: string
+  ) {
     for (const c of children) {
       out.push({
         slug: c.slug,
@@ -677,14 +577,16 @@ function buildChildDefs(defs: SectionDef[]): SectionDef[] {
         group,
         intro: "",
         subsections: [],
-        // store parent title so breadcrumb knows it
-        subcategory: parentTitle,
+        // Breadcrumb context: only for pages nested deeper than one level.
+        ...(parentTitle ? { subcategory: parentTitle } : {}),
       });
       if (c.children) walk(c.children, group, c.title);
     }
   }
   for (const s of defs) {
-    if (s.children) walk(s.children, s.group, s.title);
+    // Breadcrumb context only under a real section title; "Overview" index
+    // pages don't add a crumb above their children.
+    if (s.children) walk(s.children, s.group, s.title === "Overview" ? undefined : s.title);
   }
   return out;
 }
