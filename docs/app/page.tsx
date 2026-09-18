@@ -8,8 +8,9 @@ import Image from "next/image";
 
 import { SiteHeader } from "@/components/site-header";
 import { Browser } from "@/components/browser";
+import { HeroDoodle } from "@/components/hero-doodle";
+import { BorderBeam } from "border-beam";
 import {
-  LogoIcon,
   PythonLogo,
   SparkleIcon,
   JobsIcon,
@@ -17,362 +18,101 @@ import {
   DatabaseIcon,
   CloudIcon,
 } from "@/components/icons";
-import { GITHUB_URL } from "@/lib/sections";
+import { LandingFooter } from "@/components/landing-footer";
 import { Next as NextIcon, Nuxt as NuxtIcon, Svelte as SvelteIcon } from "@react-symbols/icons";
 
 const CREATE_COMMAND = "npx create-tspy-app@latest";
 
-const DOODLE_PIXEL =
-  "var(--font-vt323), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
-const DOODLE_PIXEL_STRONG =
-  "var(--font-press-start-2p), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
-
-function HeroDoodle() {
-  return (
-    <svg
-      viewBox="16 155 384 424"
-      aria-hidden
-      className="tspy-float hidden h-[18rem] w-[16rem] shrink-0 text-muted-foreground lg:block"
-      style={{ animationDuration: "10s" }}
-      fill="none"
-    >
-      <defs>
-        <filter
-          id="doodle-rough"
-          x="-12%"
-          y="-12%"
-          width="124%"
-          height="124%"
-        >
-          <feTurbulence
-            type="fractalNoise"
-            baseFrequency="0.018 0.026"
-            numOctaves="2"
-            seed="9"
-            result="noise"
-          />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" />
-        </filter>
-      </defs>
-
-      <g filter="url(#doodle-rough)">
-        <g transform="rotate(-5 86 266)">
-          <rect
-            x="30"
-            y="210"
-            width="112"
-            height="112"
-            rx="18"
-            stroke="currentColor"
-            strokeWidth="2.2"
-            fill="currentColor"
-            fillOpacity="0.05"
-          />
-          <rect
-            x="37"
-            y="217"
-            width="112"
-            height="112"
-            rx="16"
-            stroke="currentColor"
-            strokeWidth="1"
-            opacity="0.4"
-          />
-          <text
-            x="86"
-            y="287"
-            textAnchor="middle"
-            fontFamily={DOODLE_PIXEL_STRONG}
-            fontSize="46"
-            fontWeight="700"
-            fill="currentColor"
-          >
-            ts
-          </text>
-        </g>
-
-        <path
-          d="M 140 236 C 156 220 172 218 188 214"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-        />
-        <path
-          d="M 144 268 C 162 268 180 266 196 266"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-        />
-        <path
-          d="M 140 298 C 152 314 170 332 188 348"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-        />
-
-        <g transform="rotate(-3 244 216)">
-          <rect
-            x="188"
-            y="190"
-            width="112"
-            height="52"
-            rx="13"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            fill="currentColor"
-            fillOpacity="0.05"
-          />
-          <circle cx="210" cy="216" r="4" fill="currentColor" />
-          <text
-            x="226"
-            y="222"
-            fontFamily={DOODLE_PIXEL}
-            fontSize="18"
-            fill="currentColor"
-          >
-            auth
-          </text>
-        </g>
-        <g transform="rotate(2 250 288)">
-          <rect
-            x="196"
-            y="262"
-            width="108"
-            height="52"
-            rx="13"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            fill="currentColor"
-            fillOpacity="0.05"
-          />
-          <circle cx="218" cy="288" r="4" fill="currentColor" />
-          <text
-            x="234"
-            y="294"
-            fontFamily={DOODLE_PIXEL}
-            fontSize="18"
-            fill="currentColor"
-          >
-            db
-          </text>
-        </g>
-        <g transform="rotate(-4 244 360)">
-          <rect
-            x="188"
-            y="334"
-            width="112"
-            height="52"
-            rx="13"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            fill="currentColor"
-            fillOpacity="0.05"
-          />
-          <circle cx="210" cy="360" r="4" fill="currentColor" />
-          <text
-            x="226"
-            y="366"
-            fontFamily={DOODLE_PIXEL}
-            fontSize="18"
-            fill="currentColor"
-          >
-            orm
-          </text>
-        </g>
-
-        <path
-          d="M 246 396 C 270 414 300 428 322 440"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          opacity="0.6"
-        />
-        <path
-          d="M 318 448 l 18 3 -12 14"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          opacity="0.6"
-        />
-
-        <g transform="rotate(5 331 478)">
-          <rect
-            x="275"
-            y="420"
-            width="112"
-            height="112"
-            rx="18"
-            stroke="currentColor"
-            strokeWidth="2.2"
-            fill="currentColor"
-            fillOpacity="0.05"
-          />
-          <rect
-            x="282"
-            y="427"
-            width="112"
-            height="112"
-            rx="16"
-            stroke="currentColor"
-            strokeWidth="1"
-            opacity="0.4"
-          />
-          <text
-            x="331"
-            y="497"
-            textAnchor="middle"
-            fontFamily={DOODLE_PIXEL_STRONG}
-            fontSize="46"
-            fontWeight="700"
-            fill="currentColor"
-          >
-            py
-          </text>
-        </g>
-
-        <path
-          d="M 272 460 C 250 452 232 462 216 470"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-        />
-        <path
-          d="M 322 534 C 286 528 246 516 206 514"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-        />
-
-        <g transform="rotate(-3 202 458)">
-          <rect
-            x="150"
-            y="432"
-            width="104"
-            height="52"
-            rx="13"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            fill="currentColor"
-            fillOpacity="0.05"
-          />
-          <circle cx="170" cy="458" r="4" fill="currentColor" />
-          <text
-            x="186"
-            y="464"
-            fontFamily={DOODLE_PIXEL}
-            fontSize="18"
-            fill="currentColor"
-          >
-            ai
-          </text>
-        </g>
-        <g transform="rotate(3 187 536)">
-          <rect
-            x="120"
-            y="510"
-            width="134"
-            height="52"
-            rx="13"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            fill="currentColor"
-            fillOpacity="0.05"
-          />
-          <circle cx="144" cy="536" r="4" fill="currentColor" />
-          <text
-            x="160"
-            y="542"
-            fontFamily={DOODLE_PIXEL}
-            fontSize="18"
-            fill="currentColor"
-          >
-            jobs
-          </text>
-        </g>
-
-        <path
-          d="M 352 186 l 9 2 M 356 180 l 2 9 M 349 184 l 10 3"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          opacity="0.4"
-        />
-        <path
-          d="M 66 184 C 60 178 70 172 76 178 C 82 184 74 192 66 187 C 57 182 62 172 72 174"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          opacity="0.4"
-        />
-        <path
-          d="M 356 300 l 10 10 M 366 300 l -10 10"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          opacity="0.35"
-        />
-      </g>
-    </svg>
-  );
-}
-
 const FEATURES: {
+  index: string;
   label: string;
   status: "ships" | "direction";
   copy: string;
   icon: ReactNode;
 }[] = [
     {
+      index: "01.1",
       label: "Drop-in auth",
       status: "ships",
       icon: <KeyIcon className="size-5" />,
       copy: "Better Auth, Clerk, Firebase, Supabase, or WorkOS. Server code and client wiring land ready, waiting only for your keys.",
     },
     {
+      index: "01.2",
       label: "Database, wired",
       status: "ships",
       icon: <DatabaseIcon className="size-5" />,
       copy: "SQLite or PostgreSQL behind Prisma, Drizzle, Kysely, or the raw driver you prefer - a working client and schema from day one.",
     },
     {
+      index: "01.3",
       label: "AI, ready in a module",
       status: "ships",
       icon: <SparkleIcon className="size-5" />,
       copy: "OpenAI, Anthropic, Google Gemini, or Ollama as flat modules that hand you the official SDK client - plus agents, RAG, tools, prompts, and MCP.",
     },
     {
+      index: "01.4",
       label: "Jobs, first task ready",
       status: "ships",
       icon: <JobsIcon className="size-5" />,
       copy: "Celery, RQ, or Dramatiq with a Redis or RabbitMQ broker. You get a queue and a task that already connects.",
     },
     {
+      index: "01.5",
       label: "Python where it belongs",
       status: "ships",
       icon: <PythonLogo className="size-5" />,
       copy: "AI and jobs live at the top level - ai/ and jobs/ - never buried under the server, never an afterthought.",
     },
     {
+      index: "01.6",
       label: "Deploy anywhere",
       status: "direction",
       icon: <CloudIcon className="size-5" />,
-      copy: "Nitro presets for Node.js, Cloudflare Workers, Vercel, Deno, and Bun. One config, one build, deploy where you want.",
+      copy: "Nitro presets for Node.js and Docker, Vercel, Netlify, Cloudflare Workers, Deno Deploy, and AWS Lambda. One build, one config, deploy where you want.",
     },
   ];
+
+// Only brands present on the SimpleIcons CDN sign a real mark; the rest fall
+// back to a letter badge so the strip never renders a broken image.
+const BRAND_ICONS = new Set([
+  "betterauth",
+  "clerk",
+  "firebase",
+  "supabase",
+  "prisma",
+  "drizzle",
+  "sqlite",
+  "postgresql",
+  "anthropic",
+  "googlegemini",
+  "ollama",
+  "celery",
+  "redis",
+  "rabbitmq",
+  "nodedotjs",
+  "vercel",
+  "netlify",
+  "cloudflare",
+  "deno",
+  "flydotio",
+  "railway",
+  "render",
+]);
 
 const INTEGRATIONS: { name: string; icon?: string; url: string }[] = [
   { name: "Better Auth", icon: "betterauth", url: "https://better-auth.com" },
   { name: "Clerk", icon: "clerk", url: "https://clerk.com" },
   { name: "Firebase", icon: "firebase", url: "https://firebase.google.com" },
   { name: "Supabase", icon: "supabase", url: "https://supabase.com" },
-  { name: "WorkOS", icon: "workos", url: "https://workos.com" },
+  { name: "WorkOS", url: "https://workos.com" },
   { name: "Prisma", icon: "prisma", url: "https://prisma.io" },
   { name: "Drizzle", icon: "drizzle", url: "https://orm.drizzle.team" },
   { name: "Kysely", url: "https://kysely.dev" },
   { name: "SQLite", icon: "sqlite", url: "https://sqlite.org" },
   { name: "PostgreSQL", icon: "postgresql", url: "https://postgresql.org" },
-  { name: "OpenAI", icon: "openai", url: "https://openai.com" },
+  { name: "OpenAI", url: "https://openai.com" },
   { name: "Anthropic", icon: "anthropic", url: "https://anthropic.com" },
   { name: "Gemini", icon: "googlegemini", url: "https://ai.google.dev" },
   { name: "Ollama", icon: "ollama", url: "https://ollama.com" },
@@ -381,6 +121,18 @@ const INTEGRATIONS: { name: string; icon?: string; url: string }[] = [
   { name: "Dramatiq", url: "https://dramatiq.io" },
   { name: "Redis", icon: "redis", url: "https://redis.io" },
   { name: "RabbitMQ", icon: "rabbitmq", url: "https://rabbitmq.com" },
+];
+
+const DEPLOY_TARGETS: { name: string; href: string; icon?: string }[] = [
+  { name: "Node.js / Docker", href: "/docs/deployment", icon: "nodedotjs" },
+  { name: "Vercel", href: "/docs/deployment/vercel", icon: "vercel" },
+  { name: "Netlify", href: "/docs/deployment/netlify", icon: "netlify" },
+  { name: "Cloudflare", href: "/docs/deployment/cloudflare", icon: "cloudflare" },
+  { name: "Deno Deploy", href: "/docs/deployment/deno-deploy", icon: "deno" },
+  { name: "Fly.io", href: "/docs/deployment/flyio", icon: "flydotio" },
+  { name: "Railway", href: "/docs/deployment/railway", icon: "railway" },
+  { name: "Render", href: "/docs/deployment/render", icon: "render" },
+  { name: "AWS Lambda", href: "/docs/deployment/aws-lambda", icon: "awslambda" },
 ];
 
 function CommandButton() {
@@ -395,16 +147,13 @@ function CommandButton() {
         setCopied(true);
         window.setTimeout(() => setCopied(false), 1600);
       }}
-      className="group inline-flex h-8 items-center gap-1.5 rounded-lg border border-border/60 bg-muted/30 px-3 font-mono text-sm text-foreground transition-all hover:border-border hover:bg-muted/50"
+      className="group inline-flex h-8 items-center gap-1.5 rounded-lg border border-border bg-muted/40 px-3 font-mono text-label-13-mono text-foreground transition-all hover:border-foreground/30 hover:bg-muted"
     >
       <span aria-hidden className="text-muted-foreground">
         $
       </span>
       {CREATE_COMMAND}
-      <span
-        aria-hidden
-        className="ml-1 inline-flex text-muted-foreground"
-      >
+      <span aria-hidden className="ml-1 inline-flex text-muted-foreground">
         {copied ? (
           <svg
             width="14"
@@ -430,7 +179,7 @@ function CommandButton() {
             strokeLinejoin="round"
           >
             <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1 0 2 .9 2 2" />
           </svg>
         )}
       </span>
@@ -438,139 +187,156 @@ function CommandButton() {
   );
 }
 
+function IndexLabel({
+  index,
+  label,
+  tone = "default",
+}: {
+  index: string;
+  label: string;
+  tone?: "default" | "onDark";
+}) {
+  return (
+    <span
+      className={`inline-flex items-center gap-2 font-mono text-label-12-mono uppercase tracking-[0.12em] ${
+        tone === "onDark" ? "text-white/50" : "text-muted-foreground"
+      }`}
+    >
+      <span className={tone === "onDark" ? "text-white/30" : "text-foreground/40"}>
+        {index}
+      </span>
+      <span aria-hidden className="opacity-30">
+        /
+      </span>
+      <span>{label}</span>
+    </span>
+  );
+}
 
-
-
+function SectionHeader({
+  index,
+  eyebrow,
+  title,
+  body,
+}: {
+  index: string;
+  eyebrow: string;
+  title: ReactNode;
+  body?: string;
+}) {
+  return (
+    <div>
+      <IndexLabel index={index} label={eyebrow} />
+      <h2 className="text-heading-32 mt-4">{title}</h2>
+      {body && (
+        <p className="text-copy-16 mt-3 max-w-2xl text-muted-foreground">{body}</p>
+      )}
+    </div>
+  );
+}
 
 export default function HomePage() {
   return (
-    <div className="relative flex min-h-screen flex-col">
-      <SiteHeader />
-      <main className="relative flex-1">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-full max-w-7xl -translate-x-1/2 border-x border-dashed border-border lg:block"
-        />
-        <section>
-          <div className="relative flex min-h-[calc(100dvh-6rem)] flex-col">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 bg-background"
-            />
-            <div className="mx-auto relative flex w-full max-w-7xl flex-1 flex-col px-4 pt-24 sm:px-6 sm:pt-32 lg:px-8">
-              <div className="flex w-full flex-col gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-24">
-                <div className="w-full max-w-xl">
-                  <p className="relative inline-block px-3 py-2 font-pixel text-lg uppercase leading-none text-muted-foreground">
-                    <span
-                      aria-hidden
-                      className="pointer-events-none absolute -left-0.5 -top-0.5 h-3 w-3 border-l border-t border-foreground/20"
-                    />
-                    <span
-                      aria-hidden
-                      className="pointer-events-none absolute -right-0.5 -top-0.5 h-3 w-3 border-r border-t border-foreground/20"
-                    />
-                    <span
-                      aria-hidden
-                      className="pointer-events-none absolute -bottom-0.5 -left-0.5 h-3 w-3 border-b border-l border-foreground/20"
-                    />
-                    <span
-                      aria-hidden
-                      className="pointer-events-none absolute -bottom-0.5 -right-0.5 h-3 w-3 border-b border-r border-foreground/20"
-                    />
-                    TypeScript web · Python intelligence · one framework
+    <div className="max-w-screen overflow-x-hidden">
+      <div className="grid min-h-dvh grid-cols-1 justify-center [--gutter-width:2rem] sm:[--gutter-width:2.5rem] md:grid-cols-[var(--gutter-width)_minmax(0,80rem)_var(--gutter-width)]">
+          <div
+            aria-hidden
+            className="diagonal-stripes col-start-1 row-span-full hidden border-x border-border [--pattern-fg:rgba(10,10,14,0.05)] md:block dark:[--pattern-fg:rgba(233,233,240,0.06)]"
+          />
+          <div
+            aria-hidden
+            className="diagonal-stripes col-start-3 row-span-full hidden border-x border-border [--pattern-fg:rgba(10,10,14,0.05)] md:block dark:[--pattern-fg:rgba(233,233,240,0.06)]"
+          />
+          <div className="col-start-1 md:col-start-2">
+            <SiteHeader />
+            <main className="relative">
+          <div className="grid gap-20 pb-28 sm:gap-32">
+            <section className="relative overflow-hidden">
+            <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+              <div className="grid items-center gap-14 py-20 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-20 lg:py-28">
+              <div className="w-full max-w-2xl">
+                  <IndexLabel
+                    index="00"
+                    label="TypeScript web, Python intelligence"
+                  />
+                  <h1 className="text-heading-40 mt-6 max-w-2xl">
+                    The full-stack framework for building{" "}
+                    <strong>intelligent</strong> web apps
+                  </h1>
+                  <p className="text-copy-16 mt-4 max-w-2xl text-muted-foreground">
+                    TypeScript runs the web surface, Python runs the
+                    intelligence. Routing, auth, database, AI, and jobs - wired
+                    together by one config.
                   </p>
 
-                  <h1 className="text-heading-40 mt-8 max-w-xl">
-                    The full-stack framework for building intelligent web apps
-                  </h1>
-                  <p className="text-copy-16 mt-4 max-w-xl text-muted-foreground">
-                    One framework. Filesystem routing, auth, database,
-                    AI, and jobs - wired together from a single config.
-                  </p>                    <div className="mt-8 flex flex-wrap items-center gap-3">
-                    <Link
-                      href="/docs/why-tspy"
-                      className="inline-flex h-8 items-center justify-center rounded-lg bg-foreground px-3 text-button-14 text-background transition hover:bg-foreground/80 active:translate-y-px"
+                  <div className="mt-8 flex flex-wrap items-center gap-3">
+                    <BorderBeam
+                      size="sm"
+                      colorVariant="colorful"
+                      strength={0.85}
+                      borderRadius={8}
+                      className="rounded-lg"
                     >
-                      Read the docs
-                    </Link>
+                      <Link
+                        href="/docs/installation"
+                        className="inline-flex h-8 items-center justify-center rounded-lg bg-foreground px-3 text-button-14 text-background transition hover:bg-foreground/90 active:translate-y-px"
+                      >
+                        Get started
+                      </Link>
+                    </BorderBeam>
                     <CommandButton />
+                  </div>
+
+                  <div className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-label-12-mono uppercase tracking-[0.12em] text-muted-foreground">
+                    {["React + Vite", "Nitro server", "Python ai/ jobs"].map(
+                      (token, i) => (
+                        <span key={token} className="flex items-center gap-3">
+                          {i > 0 && <span aria-hidden className="opacity-30">/</span>}
+                          <span className="transition-colors hover:text-foreground">{token}</span>
+                        </span>
+                      ),
+                    )}
                   </div>
                 </div>
 
                 <HeroDoodle />
               </div>
 
-              <div aria-hidden className="min-h-8 sm:min-h-12 flex-1" />
-
-              <div className="w-full py-8">
-                <ComparisonBlock />
-              </div>
-
-              <div className="-mx-4 border-y border-dashed border-border px-4 py-8 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-                <div className="flex items-center gap-6">
-                  <p className="shrink-0 font-pixel text-sm uppercase leading-snug text-muted-foreground">
-                    The stack,<br />
-                    <span className="text-foreground">connected</span>
-                  </p>
-                  <div
-                    className="marquee-mask min-w-0 flex-1 overflow-hidden"
-                    role="region"
-                    aria-label="Integration partners"
-                  >
-                    <div className="animate-marquee flex w-max gap-2">
-                      {INTEGRATIONS.map((integration) => (
-                        <a
-                          key={integration.name}
-                          href={integration.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex shrink-0 items-center gap-2 rounded-full border border-border px-3 py-1.5 font-mono text-[11px] text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground"
-                        >
-                          <IntegrationMark
-                            name={integration.name}
-                            icon={integration.icon}
-                          />
-                          {integration.name}
-                        </a>
-                      ))}
-                      {INTEGRATIONS.map((integration) => (
-                        <a
-                          key={`dup-${integration.name}`}
-                          href={integration.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          aria-hidden
-                          tabIndex={-1}
-                          className="inline-flex shrink-0 items-center gap-2 rounded-full border border-border px-3 py-1.5 font-mono text-[11px] text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground"
-                        >
-                          <IntegrationMark
-                            name={integration.name}
-                            icon={integration.icon}
-                          />
-                          {integration.name}
-                        </a>
-                      ))}
-                    </div>
+              <div className="border-t border-border pb-10 pt-8">
+                <p className="mb-6 text-center text-copy-14 text-muted-foreground">
+                  Plays well with the stack you already use.
+                </p>
+                <div
+                  className="marquee-mask min-w-0 overflow-hidden"
+                  role="region"
+                  aria-label="Integration partners"
+                >
+                  <div className="animate-marquee flex w-max gap-2 py-1">
+                    {INTEGRATIONS.map((integration) => (
+                      <StackTile key={integration.name} integration={integration} />
+                    ))}
+                    {INTEGRATIONS.map((integration) => (
+                      <StackTile key={`dup-${integration.name}`} integration={integration} hidden />
+                    ))}
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section className="mx-auto max-w-7xl border-t border-dashed border-border px-4 py-24 sm:px-6 lg:px-8">
-          <div className="reveal">
-            <p className="text-label-12 text-muted-foreground">
-              What you get
-            </p>
-            <h2 className="text-heading-32 mt-3">
-              Everything wired.
-            </h2>
-            <p className="text-copy-16 mt-4 max-w-2xl text-muted-foreground">
-              Real libraries, composed through one config. Each capability is a
-              thin plugin package - pick what your project needs, ignore the
-              rest.
-            </p>
+        <section className="line-t relative">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="reveal">
+              <SectionHeader
+                index="01"
+                eyebrow="What you get"
+                title={
+                  <>
+                    Everything <strong>wired.</strong>
+                  </>
+                }
+                body="Real libraries, composed through one config. Each capability is a thin plugin package - pick what your project needs, ignore the rest."
+              />
 
             <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {FEATURES.map((feature) => (
@@ -587,73 +353,113 @@ export default function HomePage() {
                     </span>
                     <StatusChip status={feature.status} />
                   </div>
-                  <h3 className="text-label-14 mt-1">
-                    {feature.label}
-                  </h3>
-                  <p className="text-copy-13 text-muted-foreground">
-                    {feature.copy}
-                  </p>
+                  <div className="flex items-center justify-between gap-2">
+                    <h3 className="text-label-14 mt-1">{feature.label}</h3>
+                    <span className="font-mono text-label-12-mono text-muted-foreground/50">
+                      {feature.index}
+                    </span>
+                  </div>
+                  <p className="text-copy-13 text-muted-foreground">{feature.copy}</p>
                 </div>
               ))}
             </div>
           </div>
+          </div>
         </section>
 
-      </main>
-
-      <footer className="border-t border-dashed border-border">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
-            <div>
-              <div className="flex items-center gap-2">
-                <LogoIcon className="size-8" />
-                <span className="text-[17px] font-semibold tracking-tight">
-                  tspy
-                </span>
-              </div>
-              <p className="mt-4 max-w-xs text-sm leading-6 text-muted-foreground">
-                The fullstack framework for the web and its intelligence.
-              </p>
+        <section className="line-t relative">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="reveal">
+              <SectionHeader
+                index="02"
+                eyebrow="One config"
+              title={
+                <>
+                  Everything in <strong>one file.</strong>
+                </>
+              }
+              body="The same config composes auth, database, AI, and jobs. Flip the framework on the right and see what the alternative looks like."
+            />
+            <div className="mt-10">
+              <ComparisonBlock />
             </div>
-            <FooterColumn
-              title="Get started"
-              links={[
-                { label: "Docs", href: "/docs/introduction" },
-                { label: "Quick start", href: "/docs/quick-start" },
-              ]}
+          </div>
+          </div>
+        </section>
+
+        <section className="line-t relative">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="reveal">
+              <SectionHeader
+                index="03"
+                eyebrow="Deploy anywhere"
+              title={
+                <>
+                  One build, <strong>any platform.</strong>
+                </>
+              }
+              body="The build contract is one .output/ directory. Point any supported target at it and ship."
             />
-            <FooterColumn
-              title="Templates"
-              links={[
-                { label: "Auth", href: "/docs/auth" },
-                { label: "Database", href: "/docs/database" },
-                { label: "AI (Python)", href: "/docs/ai" },
-                { label: "Jobs (Python)", href: "/docs/jobs" },
-              ]}
-            />
-            <FooterColumn
-              title="Project"
-              external
-              links={[{ label: "GitHub", href: GITHUB_URL }]}
-            />
+            <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {DEPLOY_TARGETS.map((target) => (
+                <Link
+                  key={target.name}
+                  href={target.href}
+                  className="group flex items-center gap-3 rounded-xl border border-border bg-muted/20 p-4 transition-colors duration-200 hover:border-foreground/20 hover:bg-muted/40"
+                >
+                  <IntegrationMark name={target.name} icon={target.icon} />
+                  <div className="min-w-0">
+                    <p className="truncate text-label-14">{target.name}</p>
+                    <p className="mt-0.5 font-mono text-label-12-mono text-muted-foreground">
+                      /docs/{target.href.replace("/docs/", "")}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+          </div>
+        </section>
+
+          </div>
+            </main>
           </div>
         </div>
-        <div className="border-t border-dashed border-border">
-          <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-4 py-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:px-6 lg:px-8">
-            <p>© {new Date().getFullYear()} tspy · MIT License</p>
-            <a
-              href="https://github.com/Atnatewoss"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1.5 transition-colors hover:text-foreground"
-            >
-              <LogoIcon className="size-4" />
-              Built by Atnatewos
-            </a>
-          </div>
-        </div>
-      </footer>
+
+      <LandingFooter />
     </div>
+  );
+}
+
+function StackTile({
+  integration,
+  hidden,
+  tone = "default",
+}: {
+  integration: { name: string; icon?: string; url: string };
+  hidden?: boolean;
+  tone?: "default" | "dark";
+}) {
+  return (
+    <a
+      href={integration.url}
+      target="_blank"
+      rel="noreferrer"
+      aria-hidden={hidden ? true : undefined}
+      tabIndex={hidden ? -1 : undefined}
+      className={`inline-flex shrink-0 items-center gap-2 rounded-lg border px-3 py-1.5 font-mono text-label-12-mono transition-colors ${
+        tone === "dark"
+          ? "border-white/10 bg-white/5 text-white/60 hover:border-white/25 hover:text-white"
+          : "border-border bg-muted/20 text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+      }`}
+    >
+      {integration.icon ? (
+        <IntegrationMark name={integration.name} icon={integration.icon} tone={tone} />
+      ) : (
+        <IntegrationMark name={integration.name} tone={tone} />
+      )}
+      {integration.name}
+    </a>
   );
 }
 
@@ -662,13 +468,13 @@ function StatusChip({ status }: { status: "ships" | "direction" }) {
   return (
     <span
       className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${ships
-        ? "border-emerald-500/30 text-emerald-600 dark:text-emerald-400"
+        ? "border-accent/40 text-accent"
         : "border-amber-500/30 text-amber-600 dark:text-amber-400"
         }`}
     >
       <span
         aria-hidden
-        className={`size-1.5 rounded-full ${ships ? "bg-emerald-500" : "bg-amber-500"
+        className={`size-1.5 rounded-full ${ships ? "bg-accent" : "bg-amber-500"
           }`}
       />
       {ships ? "ships" : "direction"}
@@ -676,55 +482,15 @@ function StatusChip({ status }: { status: "ships" | "direction" }) {
   );
 }
 
-function FooterColumn({
-  title,
-  links,
-  external,
-}: {
-  title: string;
-  links: { label: string; href: string }[];
-  external?: boolean;
-}) {
-  return (
-    <div>
-      <p className="font-pixel text-sm uppercase text-muted-foreground">
-        {title}
-      </p>
-      <ul className="mt-4 space-y-2.5">
-        {links.map((link) => (
-          <li key={link.label}>
-            {external ? (
-              <a
-                href={link.href}
-                target="_blank"
-                rel="noreferrer"
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {link.label}
-              </a>
-            ) : (
-              <Link
-                href={link.href}
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {link.label}
-              </Link>
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
 function IntegrationMark({
-  name,
   icon,
+  tone = "default",
 }: {
   name: string;
   icon?: string;
+  tone?: "default" | "dark";
 }) {
-  if (icon) {
+  if (icon && BRAND_ICONS.has(icon)) {
     return (
       <Image
         src={`https://cdn.simpleicons.org/${icon}/9ca3af`}
@@ -737,13 +503,26 @@ function IntegrationMark({
     );
   }
 
+  if (icon === "awslambda") {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden
+        fill="#9ca3af"
+        className="size-3.5 shrink-0"
+      >
+        <path d="M4.9855 0c-.2941.0031-.5335.2466-.534.5482L4.446 5.456c0 .1451.06.2835.159.3891a.5322.5322 0 0 0 .3806.1562h3.4282l8.197 17.6805a.5365.5365 0 0 0 .4885.3181h5.811c.2969 0 .5426-.2448.5426-.5482V18.544c0-.3035-.2392-.5482-.5425-.5482h-2.0138L12.7394.3153C12.647.124 12.4564 0 12.2452 0h-7.254Zm.5397 1.0907h6.3678l8.16 17.6804a.5365.5365 0 0 0 .4885.3181h1.8178v3.8173H17.437L9.2402 5.226a.536.536 0 0 0-.4885-.318H5.5223Zm2.0137 8.2366c-.2098.0011-.3937.1193-.4857.3096L.6002 23.2133a.5506.5506 0 0 0 .0313.5282.5334.5334 0 0 0 .4544.25h6.169a.5468.5468 0 0 0 .497-.3096l3.38-7.166a.5405.5405 0 0 0-.0029-.4686L8.036 9.637a.5468.5468 0 0 0-.4942-.3096Zm.0057 1.8036 2.488 5.1522-3.1214 6.6206H1.9465Z" />
+      </svg>
+    );
+  }
+
   return (
     <span
       aria-hidden
-      className="grid size-3.5 shrink-0 place-items-center rounded-full border border-border text-[8px] font-medium leading-none"
-    >
-      {name[0]}
-    </span>
+      className={`size-1.5 shrink-0 rounded-full ${
+        tone === "dark" ? "bg-white/40" : "bg-muted-foreground/40"
+      }`}
+    />
   );
 }
 
@@ -1079,13 +858,20 @@ function ComparisonBlock() {
 
   const comparison = COMPARISONS[0];
   const otherCode = comparison[activeFramework];
-  const otherFramework = FRAMEWORKS.find((f) => f.key === activeFramework)!;
   const tspyCode = comparison.tspy;
   const tspyFramework = FRAMEWORKS.find((f) => f.key === "tspy")!;
 
   return (
     <div className="w-full">
-      <Browser address="tspy.dev" url="https://tspy.dev">
+      <BorderBeam
+        size="md"
+        colorVariant="colorful"
+        strength={0.6}
+        duration={7}
+        borderRadius={12}
+        className="rounded-xl"
+      >
+        <Browser address="tspy.dev" url="https://tspy.dev">
         <div className="grid lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-border" style={{ background: "var(--code-bg)" }}>
           {/* Left Pane: TSPY */}
           <div className="flex flex-col overflow-hidden">
@@ -1141,6 +927,7 @@ function ComparisonBlock() {
           </div>
         </div>
       </Browser>
+      </BorderBeam>
     </div>
   );
 }

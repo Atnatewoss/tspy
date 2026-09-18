@@ -225,53 +225,47 @@
 /* ── Theme Variables ─────────────────────────────────────────── */
 
 :root {
-  --background: #ffffff;
-  --foreground: #18181b;
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
-  --border: #d4d4d8;
-  --hero-noise-opacity: 0.03;
-  --hero-beam-a: rgba(168, 162, 158, 0.16);
-  --hero-beam-b: rgba(168, 162, 158, 0.08);
-  --hero-fade-strong: rgba(24, 24, 27, 0.07);
-  --hero-fade-mid: rgba(24, 24, 27, 0.025);
-  --header-bg: #ffffff;
-  --pill-bg: rgba(244, 244, 245, 0.8);
-  --code-bg: #fafafa;
-  --code-fg: #18181b;
-  --code-border: #e4e4e7;
-  --code-header-bg: #f4f4f5;
-  --code-header-fg: #71717a;
-  --code-string: #16a34a;
-  --code-keyword: #9333ea;
-  --code-fn: #2563eb;
+  --background: #fafafa;
+  --foreground: #16161a;
+  --muted: #f0f0f2;
+  --muted-foreground: #6b6b74;
+  --border: #d9d9df;
+  --accent: #0f766e;
+  --accent-soft: rgba(22, 22, 26, 0.05);
+  --header-bg: rgba(250, 250, 250, 0.8);
+  --pill-bg: rgba(240, 240, 242, 0.8);
+  --code-bg: #f5f5f7;
+  --code-fg: #18181c;
+  --code-border: #e4e4e8;
+  --code-header-bg: #ececef;
+  --code-header-fg: #6b6b74;
+  --code-string: #15803d;
+  --code-keyword: #7c3aed;
+  --code-fn: #1d4ed8;
   --code-type: #64748b;
   --code-punct: #a1a1aa;
 }
 
 .dark {
-  --background: #080808;
-  --foreground: #fafafa;
-  --muted: #1a1a1a;
-  --muted-foreground: #a1a1aa;
-  --border: #2a2a2a;
-  --hero-noise-opacity: 0.05;
-  --hero-beam-a: rgba(255, 240, 214, 0.18);
-  --hero-beam-b: rgba(255, 240, 214, 0.08);
-  --hero-fade-strong: rgba(0, 0, 0, 0.88);
-  --hero-fade-mid: rgba(0, 0, 0, 0.4);
-  --header-bg: #111111;
-  --pill-bg: rgba(26, 26, 26, 0.8);
-  --code-bg: #000000;
-  --code-fg: #f5f5f5;
-  --code-border: #27272a;
-  --code-header-bg: #09090b;
-  --code-header-fg: #a1a1aa;
-  --code-string: #34d399;
+  --background: #0d0d12;
+  --foreground: #e9e9f0;
+  --muted: #17171d;
+  --muted-foreground: #9aa0ad;
+  --border: #25252e;
+  --accent: #2dd4bf;
+  --accent-soft: rgba(233, 233, 240, 0.055);
+  --header-bg: rgba(13, 13, 18, 0.8);
+  --pill-bg: rgba(23, 23, 29, 0.8);
+  --code-bg: #090a0e;
+  --code-fg: #f2f2f6;
+  --code-border: #1e1e27;
+  --code-header-bg: #0a0a0f;
+  --code-header-fg: #9aa0ad;
+  --code-string: #2dd4bf;
   --code-keyword: #c084fc;
   --code-fn: #60a5fa;
   --code-type: #e2e8f0;
-  --code-punct: #71717a;
+  --code-punct: #6f7b8c;
 }
 
 @theme inline {
@@ -280,47 +274,65 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
+  --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-pixel: var(--font-vt323);
   --font-pixel-strong: var(--font-press-start-2p);
 }
 
-/* Hero backdrop: film grain + diagonal light beam + bottom fade */
-.hero-grain {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: var(--hero-noise-opacity);
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+/* Low-opacity dot grid (tailwindcss.com style): set --pattern-fg per usage. */
+.dot-grid {
+  background-image: radial-gradient(var(--pattern-fg) 1px, transparent 1px);
+  background-size: 12px 12px;
+  background-position: center center;
 }
 
-.hero-beam {
-  background: linear-gradient(
-    to right,
-    var(--hero-beam-a) 0%,
-    var(--hero-beam-b) 30%,
-    transparent 60%
+/* Diagonal "candy cane" gutter stripes (tailwindcss.com style gutter). */
+.diagonal-stripes {
+  background-image: repeating-linear-gradient(
+    315deg,
+    var(--pattern-fg) 0,
+    var(--pattern-fg) 1px,
+    transparent 0,
+    transparent 50%
   );
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 72%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 0%, black 72%, transparent 100%);
+  background-size: 10px 10px;
+  background-attachment: fixed;
 }
 
-.hero-fade {
-  background: linear-gradient(
-    to top,
-    var(--hero-fade-strong) 0%,
-    var(--hero-fade-mid) 30%,
-    transparent 62%
-  );
+/* Full-bleed hairlines that ignore the content cage (tailwindcss line-t/-b). */
+.line-t,
+.line-b {
+  position: relative;
+}
+.line-t::before,
+.line-b::after {
+  content: "";
+  position: absolute;
+  left: -100vw;
+  width: 200vw;
+  height: 1px;
+  background: var(--border);
+  pointer-events: none;
+}
+.line-t::before {
+  top: 0;
+}
+.line-b::after {
+  bottom: 0;
 }
 
 ::selection {
-  background: var(--foreground);
-  color: var(--background);
+  background: var(--accent);
+  color: #ffffff;
+}
+.dark ::selection {
+  color: #062520;
 }
 
 :focus-visible {
-  outline: 2px solid var(--foreground);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -353,6 +365,34 @@ body {
 @media (prefers-reduced-motion: no-preference) {
   .tspy-float {
     animation: tspy-float ease-in-out 6s infinite;
+  }
+}
+
+@keyframes doodle-flow {
+  to {
+    stroke-dashoffset: -26;
+  }
+}
+
+@keyframes doodle-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .doodle-flow {
+    animation: doodle-flow 1.6s linear infinite;
+  }
+  .doodle-pulse {
+    animation: doodle-pulse 2.6s ease-in-out infinite;
+  }
+  .doodle-pulse:nth-of-type(1) {
+    animation-delay: 0.4s;
   }
 }
 
@@ -429,7 +469,7 @@ html.dark .shiki-block .line span {
   );
 }
 
-/* ── Markdown Content Styles (Farm.js / Vitepress Inspired) ── */
+/* ── Markdown Content Styles ── */
 .docs-content h2 {
   font-size: 1.5rem;
   line-height: 1.3;
