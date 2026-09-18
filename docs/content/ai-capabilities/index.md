@@ -1,4 +1,4 @@
-## Structure of ai/
+## Structure of ai/ {#structure}
 
 The `ai/` folder is Python. Each file is a module that can be called from
 TypeScript through the RPC boundary.
@@ -18,7 +18,7 @@ ai/
     └── search.py
 ```
 
-## Providers
+## Providers {#providers}
 
 Each AI provider is a plugin package. The plugin hands you the official
 SDK client — you don't learn a TSPY-specific API.
@@ -30,7 +30,7 @@ SDK client — you don't learn a TSPY-specific API.
 | `@tspy/google` | Google Gemini | gemini-2.5-pro |
 | `@tspy/ollama` | Ollama (local) | llama3.2 |
 
-## Calling from the web
+## Calling from the web {#calling}
 
 Python functions are called from TypeScript through the generated RPC
 boundary. The types flow automatically — Python defines them, TypeScript

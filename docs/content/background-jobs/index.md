@@ -1,4 +1,4 @@
-## Workers
+## Workers {#workers}
 
 The `jobs/` folder is Python. Each file defines tasks that can be enqueued
 from TypeScript and executed by a worker process.
@@ -11,7 +11,7 @@ jobs/
 └── schedules.py     # Scheduled tasks
 ```
 
-## The flow
+## The flow {#flow}
 
 1. TypeScript enqueues a task: `jobs.enqueue("process_data", args=[id])`
 2. The broker (Redis/RabbitMQ) receives the message
@@ -28,7 +28,7 @@ def process_data(record_id: int) -> dict:
     return {"status": "done", "id": record_id}
 ```
 
-## Why Python workers
+## Why Python workers {#why-python}
 
 Background jobs are Python because they often need the same AI/ML
 libraries as the `ai/` folder. Celery, RQ, and Dramatiq are all Python

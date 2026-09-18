@@ -1,10 +1,10 @@
-## Communication
+## Communication {#communication}
 
 TypeScript and Python communicate through a generated typed RPC boundary.
 The TypeScript server calls Python functions as if they were local — the
 serialization, transport, and deserialization are automatic.
 
-## Generation
+## Generation {#generation}
 
 The RPC stubs are generated at build time from your Python function
 signatures. Types flow from Python to TypeScript — no manual type
@@ -31,7 +31,7 @@ import { chat } from "tspy/server/ai";
 const reply = await chat("Hello!"); // typed as (message: string) => Promise<string>
 ```
 
-## The contract
+## The contract {#the-contract}
 
 The contract is the function signature. Python defines the types,
 TypeScript consumes them. If the Python signature changes, the TypeScript
