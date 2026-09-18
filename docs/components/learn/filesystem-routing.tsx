@@ -13,6 +13,22 @@ app/about/page.tsx              → /about
 app/dashboard/settings/page.tsx → /dashboard/settings`}
       </CodeBlock>
       <P>
+        Layouts wrap every route below them, so nesting folders is nesting
+        layouts:
+      </P>
+      <CodeBlock title="A small app on disk">
+{`app/
+|-- page.tsx              -> /
+|-- layout.tsx            -> wraps all pages
+|-- about/
+|   \`-- page.tsx          -> /about
+\`-- blog/
+    |-- layout.tsx        -> wraps /blog/*
+    |-- page.tsx          -> /blog
+    \`-- [slug]/
+        \`-- page.tsx      -> /blog/:slug`}
+      </CodeBlock>
+      <P>
         Every route is a file named <Code>page.tsx</Code>. Its path relative to{" "}
         <Code>app/</Code> is the URL. No manual registration, no import list, no
         router config.

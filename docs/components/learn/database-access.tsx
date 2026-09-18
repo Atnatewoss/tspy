@@ -35,8 +35,8 @@ export default defineConfig({
       <P>
         The database client is initialized in <Code>server/db/</Code> and is
         exposed at runtime as the <Code>db</Code> export of{" "}
-        <Code>tspy/server</Code> - injected into Hono&apos;s context, making it
-        easily accessible inside any API route handler:
+        <Code>tspy/server</Code>, making it easily accessible inside any API
+        route handler:
       </P>
       <CodeBlock file="server/db/client.ts" title="A Drizzle + SQLite client">
 {`import { createClient } from "@libsql/client";

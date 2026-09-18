@@ -16,8 +16,8 @@ export function BuildPipeline() {
             hashed filenames for caching.
           </>,
           <>
-            <Code>nitro build</Code> compiles the server routes - the Hono
-            handlers, the generated RPC router, and the plugin exports - then
+            <Code>nitro build</Code> compiles the server routes - the h3
+            handlers, the generated Hono RPC router, and the plugin exports - then
             copies the Vite output into Nitro&apos;s public directory.
           </>,
         ]}
@@ -52,6 +52,21 @@ export function BuildPipeline() {
         running <Code>.output/server/index.mjs</Code>. The same artifact runs
         locally, in a container, on a VPS, or on any platform Nitro can target.
       </P>
+
+      <H3 id="generated">What gets generated</H3>
+      <P>
+        Alongside the client and server bundles, the build writes the generated
+        boundary into <Code>.tspy/</Code>. These are the same modules the dev
+        server serves virtually - on disk during a build, in memory during dev:
+      </P>
+      <Table
+        head={["File", "Contents"]}
+        rows={[
+          [<Code key="h">.tspy/hono.ts</Code>, "The Hono router + AppRouter type built from server/api/*.ts"],
+          [<Code key="c">.tspy/api-client.ts</Code>, "The typed hc<AppRouter> client exported as api"],
+          [<Code key="s">.tspy/server.ts</Code>, "The generated auth / db / ai / jobs server exports"],
+        ]}
+      />
 
       <H3 id="prerender">Prerendering and targets</H3>
       <P>

@@ -18,8 +18,8 @@ export function DataMutations() {
       <P>
         Mutations are typed RPC calls, the same as any other fetch. The form
         submits to <Code>server/api/</Code> endpoints, where input is validated
-        using Zod before being processed by Hono and passed down to the database
-        or Python layer.
+        using Zod before being processed by the h3 handler and passed down to
+        the database or Python layer.
       </P>
 
       <H3 id="validation">Validation</H3>

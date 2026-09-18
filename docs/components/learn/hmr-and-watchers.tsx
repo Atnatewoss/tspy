@@ -23,6 +23,16 @@ export function HmrAndWatchers() {
         <Code>unlink</Code>. Editing an existing file does not fire either, and
         correctly triggers ordinary HMR instead of a route-tree rebuild.
       </P>
+      <Table
+        head={["Path", "Change", "Handled by"]}
+        rows={[
+          [<Code key="1">app/**/page.tsx</Code>, "added or removed", "Route-tree invalidation"],
+          [<Code key="2">app/**/layout.tsx</Code>, "added or removed", "Route-tree invalidation"],
+          [<Code key="3">app/**</Code>, "content edit", "Ordinary granular HMR"],
+          [<Code key="4">server/**/*.ts</Code>, "content edit", "Nitro server reload"],
+          [<Code key="5">ai/**/*.py</Code>, "content edit", "Python process restart"],
+        ]}
+      />
 
       <H3 id="invalidation">Invalidation</H3>
       <P>
