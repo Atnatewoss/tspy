@@ -23,14 +23,17 @@ export function useGitHubStars() {
       } catch {}
 
       try {
-        const res = await fetch("https://api.github.com/repos/Atnatewoss/tspy");
-        const data = await res.json();
+        const res = await fetch("/api/stars");
+        if (!res.ok) return;
+        const data = (await res.json()) as { stars?: number | null };
         if (cancelled) return;
-        setStars(data.stargazers_count as number);
-        localStorage.setItem(
-          cacheKey,
-          JSON.stringify({ count: data.stargazers_count, ts: Date.now() })
-        );
+        if (typeof data.stars === "number") {
+          setStars(data.stars);
+          localStorage.setItem(
+            cacheKey,
+            JSON.stringify({ count: data.stars, ts: Date.now() })
+          );
+        }
       } catch {}
     }
 
