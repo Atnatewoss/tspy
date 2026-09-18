@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { LEARN_CONTENT } from "./learn";
 import {
   highlightCode,
   inferLang,
@@ -1475,83 +1474,6 @@ export default defineConfig({
     </>
   ),
 
-  "merge-strategy": (
-    <>
-      <P>
-        Because templates share a base project, two templates sometimes write
-        the same path. When they do, the generator merges - it does not clobber.
-      </P>
-
-      <H3 id="per-file">Per-file strategy</H3>
-      <Table
-        head={["File type", "Strategy"]}
-        rows={[
-          ["package.json", "merged deeply: scripts, dependencies, devDependencies"],
-          ["pyproject.toml", "merged by section (project, dependencies)"],
-          [".env.example", "keys merged; existing values untouched"],
-          ["everything else", "last writer wins"],
-        ]}
-      />
-      <P>
-        The base template always applies first, so every named capability is a
-        merge on top of it - auth adds a provider to <Code>package.json</Code>{" "}
-        without undoing the jobs template that ran before it.
-      </P>
-
-      <H3 id="example">Example</H3>
-      <CodeBlock>
-{`# base + auth/better-auth + database/drizzle
-package.json     - scripts + deps merged
-tspy.config.ts   - auth + database written once
-.env.example     - BETTER_AUTH_SECRET, DATABASE_URL merged`}
-      </CodeBlock>
-    </>
-  ),
-
-  "how-it-works": (
-    <>
-      <H3 id="compose">Composition</H3>
-      <P>
-        Generation is strictly ordered: the <Code>base</Code> template first,
-        then each selected template in the fixed order auth, database, AI,
-        jobs (with the broker). The result is the layered project - never a
-        restart from scratch for a different combination.
-      </P>
-      <CodeBlock>
-{`create-tspy-app my-app --auth better-auth --database sqlite \\
-    --toolkit drizzle --ai llm/anthropic --jobs celery
-
-templates applied, in order:
-  base
-  + auth/better-auth
-  + database/drizzle/sqlite
-  + ai/llm/anthropic
-  + jobs/celery
-  + jobs/brokers/redis`}
-      </CodeBlock>
-
-      <H3 id="write-merge">Write or merge</H3>
-      <P>
-        When a template writes a path the base already created, the generator
-        merges <Code>package.json</Code>, <Code>pyproject.toml</Code>, and{" "}
-        <Code>.env.example</Code>; everything else is written once, last writer
-        wins. The report at the end tells you exactly what happened:
-      </P>
-      <CodeBlock>
-{`Created my-app/ with 6 template(s): base + auth + database + ai + celery + redis.
-42 files written, 3 files merged.`}
-      </CodeBlock>
-
-      <H3 id="dev">One dev command</H3>
-      <P>
-        <Code>npm run dev</Code> starts Vite (the client) and Nitro (the API)
-        together, proxies <Code>/api</Code> to the server, and - when Python
-        templates are selected - wires the AI and job runtimes. The{" "}
-        <Code>.env.example</Code> lists every variable the project needs, so a
-        clone can be filled in without guessing names.
-      </P>
-    </>
-  ),
   deployment: (
     <>
       <H3 id="build-output">Build output</H3>
@@ -1752,6 +1674,4 @@ CMD ["node", "server/index.mjs"]`}</CodeBlock>
       </Callout>
     </>
   ),
-
-  ...LEARN_CONTENT,
 };

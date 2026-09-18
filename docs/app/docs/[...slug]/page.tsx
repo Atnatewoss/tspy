@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 import { DocsShell } from "@/components/docs-shell";
 import { MarkdownContent } from "@/components/markdown-content";
 import { SectionPrevNext } from "@/components/section-prev-next";
-import { DOCS_NAV, getAdjacent, getSection, sectionsFor } from "@/lib/sections";
-import { markdownToHtml } from "@/lib/markdown";
+import { DOCS_NAV, DOCS_SECTION_DEFS, getAdjacent, getSection, sectionsFor } from "@/lib/sections";
+import { markdownToHtml, extractHeadings } from "@/lib/markdown";
 
 export const dynamicParams = false;
 
@@ -31,12 +31,26 @@ export default async function DocsPage({ params }: { params: Promise<{ slug: str
   const { prev, next } = getAdjacent(section.slug);
   const html = markdownToHtml(section.slug);
 
-  // Build breadcrumb: group / parent (subcategory) for child pages
-  const breadcrumbs: string[] = [section.group];
-  if (section.subcategory) breadcrumbs.push(section.subcategory);
+  // Curated subsections win; anything else gets a TOC derived from headings.
+  const autoToc = section.subsections.length > 0 ? [] : extractHeadings(section.slug);
+  const toc =
+    section.subsections.length > 0
+      ? section.subsections
+      : autoToc.length > 0
+        ? autoToc
+        : undefined;
+
+  // Breadcrumb: only for pages nested deeper than one level (e.g. AI / Providers / OpenAI).
+  // Parent pages show their group; flat children show nothing.
+  const isChild = !DOCS_SECTION_DEFS.some((s) => s.slug === section.slug);
+  const breadcrumbs: string[] = isChild
+    ? section.subcategory
+      ? [section.subcategory, section.title]
+      : []
+    : [section.group];
 
   return (
-    <DocsShell nav={DOCS_NAV} toc={section.subsections.length > 0 ? section.subsections : undefined}>
+    <DocsShell nav={DOCS_NAV} toc={toc}>
       <article className="py-8 sm:py-12">
         <div className="flex items-center gap-1.5 text-label-12 text-muted-foreground">
           {breadcrumbs.map((crumb, i) => (

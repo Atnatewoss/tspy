@@ -5,8 +5,8 @@ export function MiddlewareAndEdge() {
     <>
       <H3 id="middleware">Middleware</H3>
       <P>
-        TSPY middleware runs in the Nitro server using Hono&apos;s middleware
-        syntax. It can intercept requests, check authentication tokens, and
+        TSPY middleware runs in the Nitro server using h3&apos;s middleware
+        shape. It can intercept requests, check authentication tokens, and
         attach context before the request reaches the specific{" "}
         <Code>server/api/</Code> handler.
       </P>
@@ -50,7 +50,7 @@ export function MiddlewareAndEdge() {
 
       <H3 id="edge">Edge</H3>
       <P>
-        Because both Nitro and Hono are built on standard Web APIs (Request,
+        Because both Nitro and h3 are built on standard Web APIs (Request,
         Response, fetch), the entire TSPY server layer is fully edge-compatible.
         It can be deployed to Cloudflare Workers, Vercel Edge, or Deno Deploy
         without modification.
@@ -66,7 +66,7 @@ export function MiddlewareAndEdge() {
       />
       <P>
         The code you write is identical in every case - route handlers stay{" "}
-        <Code>defineEventHandler</Code>, middleware stays Hono-flavored, and the
+        <Code>defineEventHandler</Code>, middleware stays h3-flavored, and the
         generated RPC boundary stays a Web-standard <Code>fetch</Code>. Changing
         the deployment target is a build preset, not a rewrite.
       </P>

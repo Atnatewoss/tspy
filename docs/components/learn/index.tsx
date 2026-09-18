@@ -4,6 +4,7 @@ import { FilesystemRouting } from "./filesystem-routing";
 import { TheParserAndManifest } from "./the-parser-and-manifest";
 import { VirtualModules } from "./virtual-modules";
 import { LayoutAdaptation } from "./layout-adaptation";
+import { ProjectGenerator } from "./project-generator";
 import { ViteAndNitro } from "./vite-and-nitro";
 import { TheDevServer } from "./the-dev-server";
 import { HmrAndWatchers } from "./hmr-and-watchers";
@@ -28,6 +29,7 @@ export const LEARN_CONTENT: Record<string, React.ReactNode> = {
   "the-parser-and-manifest": <TheParserAndManifest />,
   "virtual-modules": <VirtualModules />,
   "layout-adaptation": <LayoutAdaptation />,
+  "project-generator": <ProjectGenerator />,
   "vite-and-nitro": <ViteAndNitro />,
   "the-dev-server": <TheDevServer />,
   "hmr-and-watchers": <HmrAndWatchers />,

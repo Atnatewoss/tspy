@@ -61,7 +61,8 @@ export function ViteAndNitro() {
       </P>
       <P>
         There is no <Code>nitro.config.ts</Code> in a TSPY project. TSPY creates
-        the Nitro configuration internally and routes API requests through Hono.
+        the Nitro configuration internally; API requests run through h3
+        handlers.
         Server code lives in <Code>server/</Code> and is auto-discovered by
         Nitro's filesystem convention for server routes.
       </P>

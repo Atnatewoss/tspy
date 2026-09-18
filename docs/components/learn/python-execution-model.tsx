@@ -12,7 +12,7 @@ export function PythonExecutionModel() {
       <CodeBlock title="Process topology">
 {`tspy dev
   |-- Vite (:3000)          # the React client
-  |-- Nitro (:3001)         # the API / Hono handlers
+  |-- Nitro (:3001)         # the API / h3 handlers
   \`-- Python (internal)     # FastAPI RPC surface (only when ai//jobs/ exist)`}
       </CodeBlock>
       <P>

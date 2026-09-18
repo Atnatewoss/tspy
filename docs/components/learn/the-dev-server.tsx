@@ -7,7 +7,7 @@ export function TheDevServer() {
       <P>
         When you run <Code>tspy dev</Code>, you are starting a master
         orchestrator. It spins up the Vite development server for the React
-        frontend, the Nitro development server for the Hono backend, and (if
+        frontend, the Nitro development server for the h3 backend, and (if
         Python features are enabled) the FastAPI/Uvicorn development server.
       </P>
       <CodeBlock file="packages/dev/src/index.ts" title="runDevServer">
@@ -43,7 +43,7 @@ await vite.listen();`}
         head={["Process", "Port", "Visibility"]}
         rows={[
           ["Vite (React client)", "3000", "Public - the app origin"],
-          ["Nitro (Hono server)", "3001", "Internal - only via proxy"],
+          ["Nitro (h3 handlers)", "3001", "Internal - only via proxy"],
           ["Python (FastAPI)", "internal", "Internal - only via Nitro RPC"],
         ]}
       />

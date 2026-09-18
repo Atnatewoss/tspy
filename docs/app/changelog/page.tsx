@@ -1,131 +1,111 @@
 import type { Metadata } from "next";
 import { SiteHeader } from "@/components/site-header";
+import { LandingFooter } from "@/components/landing-footer";
 
 export const metadata: Metadata = {
   title: "Changelog · TSPY",
   description:
-    "Every change to TSPY - new templates, routing upgrades, and fixes, newest first.",
+    "Every TSPY package queued for its first publish.",
 };
 
-const ENTRIES: {
-  version: string;
-  date: string;
-  title: string;
-  tag: "release" | "improvement" | "fix";
-  items: string[];
-}[] = [
-  {
-    version: "v0.4.0",
-    date: "September 15, 2026",
-    title: "Landing refresh",
-    tag: "release",
-    items: [
-      "New centered pill navigation with Docs, Learn, and Changelog.",
-      "Hero rebuilt: film grain, light beam, and a bottom fade that pools into darkness.",
-      "Feature grid redesigned as a sticky-left, scrollable-right layout.",
-      "Global focus-visible rings, selection colors, and hover states in both themes.",
-    ],
-  },
-  {
-    version: "v0.3.0",
-    date: "August 30, 2026",
-    title: "Learn guidebook",
-    tag: "release",
-    items: [
-      "New /learn section explaining the routing engine, layout adaptation, and dev server lifecycle.",
-      "Build-time route discovery documented end to end, from parser to virtual module.",
-    ],
-  },
-  {
-    version: "v0.2.0",
-    date: "August 12, 2026",
-    title: "AI and jobs templates",
-    tag: "release",
-    items: [
-      "@tspy/anthropic, @tspy/google, and @tspy/ollama plugin packages.",
-      "Celery, RQ, and Dramatiq job templates with a Redis or RabbitMQ broker.",
-      "ai/ and jobs/ now scaffold at the project top level, never under the server.",
-    ],
-  },
-  {
-    version: "v0.1.0",
-    date: "July 21, 2026",
-    title: "Initial public scaffold",
-    tag: "release",
-    items: [
-      "create-tspy with arrow-key menus, checklists, and flags.",
-      "Vite + Nitro dev server, /api proxied automatically.",
-      "Auth and database templates for Better Auth, Clerk, Prisma, and Drizzle.",
-    ],
-  },
+const VERSION = "0.1.0";
+
+type Pkg = { name: string; role: string; group: string };
+
+const PACKAGES: Pkg[] = [
+  { name: "tspy", role: "Framework core: config, routing, runtime exports", group: "Core" },
+  { name: "create-tspy-app", role: "Project generator and template composer", group: "Core" },
+  { name: "@tspy/dev", role: "Vite + Nitro development server and codegen", group: "Core" },
+  { name: "@tspy/better-auth", role: "Auth provider", group: "Auth" },
+  { name: "@tspy/clerk", role: "Auth provider", group: "Auth" },
+  { name: "@tspy/firebase", role: "Auth provider", group: "Auth" },
+  { name: "@tspy/supabase", role: "Auth provider", group: "Auth" },
+  { name: "@tspy/workos", role: "Auth provider", group: "Auth" },
+  { name: "@tspy/prisma", role: "Database client", group: "Database" },
+  { name: "@tspy/drizzle", role: "Database client", group: "Database" },
+  { name: "@tspy/kysely", role: "Database client", group: "Database" },
+  { name: "@tspy/sql", role: "Raw SQL client", group: "Database" },
+  { name: "@tspy/anthropic", role: "LLM provider", group: "AI" },
+  { name: "@tspy/openai", role: "LLM provider", group: "AI" },
+  { name: "@tspy/google", role: "LLM provider", group: "AI" },
+  { name: "@tspy/ollama", role: "LLM provider, local", group: "AI" },
+  { name: "@tspy/celery", role: "Job system", group: "Jobs" },
+  { name: "@tspy/rq", role: "Job system", group: "Jobs" },
+  { name: "@tspy/dramatiq", role: "Job system", group: "Jobs" },
 ];
 
-const TAG_STYLES: Record<(typeof ENTRIES)[number]["tag"], string> = {
-  release: "border-emerald-500/30 text-emerald-600 dark:text-emerald-400",
-  improvement: "border-sky-500/30 text-sky-600 dark:text-sky-400",
-  fix: "border-amber-500/30 text-amber-600 dark:text-amber-400",
-};
+const GROUP_ORDER = ["Core", "Auth", "Database", "AI", "Jobs"];
 
 export default function ChangelogPage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <SiteHeader active="changelog" />
+    <div className="max-w-screen overflow-x-hidden">
+      <div className="grid min-h-dvh grid-cols-1 justify-center [--gutter-width:2rem] sm:[--gutter-width:2.5rem] md:grid-cols-[var(--gutter-width)_minmax(0,80rem)_var(--gutter-width)]">
+        <div
+          aria-hidden
+          className="diagonal-stripes col-start-1 row-span-full hidden border-x border-border [--pattern-fg:rgba(10,10,14,0.05)] md:block dark:[--pattern-fg:rgba(233,233,240,0.06)]"
+        />
+        <div
+          aria-hidden
+          className="diagonal-stripes col-start-3 row-span-full hidden border-x border-border [--pattern-fg:rgba(10,10,14,0.05)] md:block dark:[--pattern-fg:rgba(233,233,240,0.06)]"
+        />
+        <div className="col-start-1 md:col-start-2">
+          <SiteHeader />
 
-      <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mb-14">
-          <p className="font-pixel text-xs uppercase tracking-wider text-muted-foreground">
-            TSPY
-          </p>
-          <h1 className="mt-4 text-5xl font-semibold tracking-tight">
-            Changelog
-          </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">
-            Every change to the framework - new templates, routing upgrades,
-            and fixes. Newest first.
-          </p>
-        </div>
+          <main className="w-full flex-1 pb-24">
+        <section className="border-b border-border">
+          <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+            <p className="font-mono text-label-12-mono uppercase tracking-[0.12em] text-muted-foreground">
+              v{VERSION} · packages
+            </p>
+            <h1 className="text-heading-48 mt-4 max-w-3xl">
+              Packages to be published
+            </h1>
+            <p className="text-copy-16 mt-5 max-w-2xl text-muted-foreground">
+              The v{VERSION} wave is prepared and queued for its first npm
+              publish. Framework core, the generator, the dev server, and every
+              provider package ship together — nothing is held back.
+            </p>
+          </div>
+        </section>
 
-        <ol className="relative space-y-14 border-l border-dashed border-border pl-8">
-          {ENTRIES.map((entry) => (
-            <li key={entry.version} className="relative">
-              <span
-                aria-hidden
-                className="absolute -left-[38px] top-1.5 size-2.5 rounded-full border border-border bg-background"
-              />
-              <div className="flex flex-wrap items-center gap-3">
-                <h2 className="font-mono text-sm font-semibold tracking-tight">
-                  {entry.version}
-                </h2>
-                <span
-                  className={`rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${TAG_STYLES[entry.tag]}`}
-                >
-                  {entry.tag}
-                </span>
-                <time className="ml-auto font-mono text-xs text-muted-foreground">
-                  {entry.date}
-                </time>
+        {GROUP_ORDER.map((group) => {
+          const packages = PACKAGES.filter((p) => p.group === group);
+          return (
+            <section key={group} className="border-b border-border">
+              <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+                <div className="flex items-baseline justify-between gap-4">
+                  <h2 className="text-heading-20">{group}</h2>
+                  <span className="font-mono text-label-12-mono text-muted-foreground">
+                    {packages.length} {packages.length === 1 ? "package" : "packages"}
+                  </span>
+                </div>
+                <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  {packages.map((pkg) => (
+                    <div
+                      key={pkg.name}
+                      className="flex flex-col gap-3 rounded-xl border border-border bg-muted/20 p-4 transition-colors hover:border-foreground/20 hover:bg-muted/40"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-mono text-label-13-mono text-foreground">
+                          {pkg.name}
+                        </span>
+                        <span className="rounded-full border border-border px-2 py-0.5 font-mono text-label-12-mono text-muted-foreground">
+                          {VERSION}
+                        </span>
+                      </div>
+                      <p className="text-copy-13 text-muted-foreground">{pkg.role}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <h3 className="mt-2 text-xl font-semibold tracking-tight">
-                {entry.title}
-              </h3>
-              <ul className="mt-4 space-y-2.5">
-                {entry.items.map((item) => (
-                  <li
-                    key={item}
-                    className="flex gap-2.5 text-sm leading-6 text-muted-foreground"
-                  >
-                    <span
-                      aria-hidden
-                      className="mt-[11px] size-1 shrink-0 rounded-full bg-muted-foreground/60"
-                    />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ol>
+            </section>
+          );
+        })}
       </main>
+        </div>
+      </div>
+
+      <LandingFooter />
     </div>
   );
 }

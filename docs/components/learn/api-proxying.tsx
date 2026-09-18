@@ -29,7 +29,7 @@ export function ApiProxying() {
 {`browser --fetch("/api/auth/login")--
       Vite (:3000)
       --proxy--> Nitro (:3001)
-      --handler--> Hono app
+      --handler--> h3 handler
       --rpc--> Python (optional)`}
       </CodeBlock>
 

@@ -32,6 +32,23 @@ const manifest = parseRoutes(files);
 // manifest.children[0].segment = "about"
 // manifest.children[0].page = "/app/about/page.tsx"`}
       </CodeBlock>
+
+      <H3 id="the-manifest">The manifest</H3>
+      <P>
+        The parser produces a <Code>RouteManifestNode</Code> - a pure data
+        structure describing the routes. There are no JavaScript strings and no
+        code generation at this stage; each node records the file that supplied
+        its <Code>page</Code> and <Code>layout</Code>:
+      </P>
+      <CodeBlock title="RouteManifestNode">
+{`interface RouteManifestNode {
+  segment: string;   // "users", "[id]", ""
+  path?: string;     // "users", ":id", ""
+  page?: string;     // absolute file path
+  layout?: string;   // absolute file path
+  children: RouteManifestNode[];
+}`}
+      </CodeBlock>
       <P>
         The parser does not generate code. It produces a data structure. This
         separation means the tree can be inspected, validated, and transformed

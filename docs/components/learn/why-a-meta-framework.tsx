@@ -83,7 +83,7 @@ Conventions    - invented by you`}
         rows={[
           ["Routing", "App Router (RSC, server components)", "Filesystem routing - React Router (client)"],
           ["Rendering", "SSR, SSG, streaming, RSC", "CSR first, SSR planned"],
-          ["Server", "Node.js / Edge runtime", "Nitro (cross-platform) + Hono"],
+          ["Server", "Node.js / Edge runtime", "Nitro (cross-platform) on h3"],
           ["Config", "next.config.ts", "tspy.config.ts"],
           ["Bundler", "Turbopack / Webpack", "Vite"],
           ["Font/Image", "next/font, next/image", "Standard web APIs (framework primitives planned)"],

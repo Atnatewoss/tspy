@@ -66,7 +66,7 @@ function blockToMarkdown(el: HTMLElement): string | null {
 }
 
 function markdownFromDocs(): string {
-  const root = document.getElementById("docs-main");
+  const root = document.querySelector<HTMLElement>("[data-md-root]");
   if (!root) return "";
   const blocks: string[] = [];
   function walk(node: HTMLElement) {
@@ -151,6 +151,31 @@ export function TableOfContents({
                     />
                     {item.title}
                   </a>
+                  {item.children && item.children.length > 0 && (
+                    <ul className="mt-0.5 space-y-0.5 border-l border-border pl-2.5">
+                      {item.children.map((child) => {
+                        const childActive = child.id === activeId;
+                        return (
+                          <li key={child.id}>
+                            <a
+                              href={`#${child.id}`}
+                              aria-current={childActive ? "true" : undefined}
+                              className={
+                                childActive
+                                  ? "flex items-center gap-1.5 border-l-2 border-foreground -ml-px py-1 pl-2 pr-2 text-sm font-medium text-foreground"
+                                  : "flex items-center gap-1.5 -ml-px border-l-2 border-transparent py-1 pl-2 pr-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                              }
+                            >
+                              <ChevronRightIcon
+                                className={`size-3 shrink-0 ${childActive ? "opacity-100" : "opacity-0"}`}
+                              />
+                              {child.title}
+                            </a>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
                 </li>
               );
             })}
